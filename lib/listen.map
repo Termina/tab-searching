@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "listen.js",
+  "sourceRoot": "..",
+  "sources": [
+    "coffee/listen.coffee"
+  ],
+  "names": [],
+  "mappings": ";AACA,CAAS,EAAiB,CAAb,CAAa,GAAlB,CAAR;CACE,CAAA,CAAA,CAAG,CAAK,EAAL;CACD,GAAA,CAAQ,EAAR;CACS,KAAD,CAAQ,IAAd,EAAA;CAA2B,CAAO,EAAN,EAAD,EAAC;EAAe,CAAA,KAA3C,CAA4C;CAClC,EAAR,IAAO,QAAP;CADF,MAA2C;MAF/C;IADwB;CAAA"
+}

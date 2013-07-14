@@ -1,0 +1,27 @@
+{
+  "name": "search-tab-crx",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "icons": {
+    "48": "pic/s.png"
+  },
+  "background": {
+    "scripts": ["lib/bg.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["lib/listen.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "options_page": "build/options.html",
+  "permissions": [
+    "tabs",
+    "http://*/*",
+    "https://*/*"
+  ],
+  "browser_action": {
+    "default_action": "pic/s.png"
+  }
+}

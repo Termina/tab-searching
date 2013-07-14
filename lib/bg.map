@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "bg.js",
+  "sourceRoot": "..",
+  "sources": [
+    "coffee/bg.coffee"
+  ],
+  "names": [],
+  "mappings": ";AACA,CAAO,CAAoC,CAAN,GAA/B,CAAQ,EAAU,EAAxB;CACE,CAAA,CAAM,CAAH,CAAY,CAAf;CACS,KAAD,CAAQ,IAAd;CAAsB,CAAM,EAAN,EAAA,CAAA;CAAA,CAAoB,CAAL,GAAA,aAAf;CADxB,KACE;IAFiC;CAAA"
+}

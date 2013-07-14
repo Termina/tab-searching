@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "find.js",
+  "sourceRoot": "..",
+  "sources": [
+    "coffee/find.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAEA,IAAA,IAAA;;AAAA,CAAA,EAAI,EAAA,IAAC;CAAmB,IAAT,GAAQ,CAAR,IAAA;CAAX;;AACJ,CADA,EACQ,EAAR,CAAQ;;AAER,CAHA,IAGK;;AAEL,CALA,CAKgC,CAAA,EAA3B,EAAL,EAAgC,OAAhC;CACU,CAAY,CAApB,EAAyB,CAAzB,CAAO,EAAP;CAD8B"
+}
