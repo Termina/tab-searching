@@ -63,15 +63,17 @@ suggest = (text) ->
     ones.map addOne
     wait.done 'url'
 
-  wait.wait 'history'
-  chrome.history.search text: text, (tabs) ->
-    tabs.map addOne
-    wait.done 'history'
+  # I disabled history searching for Chrome did it better
 
-  wait.wait 'bookmarks'
-  chrome.bookmarks.search text, (tabs) ->
-    tabs.map addOne
-    wait.done 'bookmarks'
+  # wait.wait 'history'
+  # chrome.history.search text: text, (tabs) ->
+  #   tabs.map addOne
+  #   wait.done 'history'
+
+  # wait.wait 'bookmarks'
+  # chrome.bookmarks.search text, (tabs) ->
+  #   tabs.map addOne
+  #   wait.done 'bookmarks'
 
 input.addEventListener 'input', -> suggest input.value
 
@@ -112,14 +114,14 @@ gotoTab = (tabid) ->
   chrome.tabs.get tabid, (tab) ->
     if tab?
       chrome.tabs.update tabid, selected: yes
-      # window.close()
+      window.close()
     else
       url = q('#choose').querySelector('.url').innerText
       options =
         url: url
         active: yes
       chrome.tabs.create options
-      # window.close()
+      window.close()
 
 # init main function
 
