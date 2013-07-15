@@ -1,0 +1,49 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0px;
+}
+#key {
+  width: 100%;
+  height: 30px;
+  border: none;
+  outline: none;
+  line-height: 20px;
+  box-shadow: 0px 0px 8px #ccc;
+  padding: 4px 6px;
+  font-family: 'Ubuntu Mono';
+  font-size: 14px;
+}
+#menu {
+  width: 100%;
+  height: 570px;
+  background: #e6e6e6;
+  overflow-y: scroll;
+}
+#menu>.tab:nth-child(2n) {
+  background: #f5f5f5;
+}
+#menu .tab {
+  padding: 6px 8px;
+  display: -webkit-flex;
+}
+#menu .tab .icon {
+  width: 40px;
+}
+#menu .tab .content {
+  overflow: hidden;
+  font-family: Ubuntu;
+}
+#menu .tab .content>div {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+#menu .tab .content .title {
+  height: 20px;
+}
+#menu .tab .content .url {
+  font-size: 10px;
+  color: #6e6ef7;
+  height: 16px;
+}

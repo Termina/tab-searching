@@ -1,0 +1,50 @@
+
+*
+  box-sizing border-box
+
+body
+  margin 0px
+
+#key
+  width 100%
+  height 30px
+  border none
+  outline none
+  line-height 20px
+  box-shadow 0px 0px 8px hsl(0,0,80)
+  padding 4px 6px
+  font-family 'Ubuntu Mono'
+  font-size 14px
+
+#menu
+  width 100%
+  height 570px
+  background hsl(0,0,90)
+  overflow-y scroll
+
+  &>.tab:nth-child(2n)
+    background hsl(0,0,96)
+
+  .tab
+    padding 6px 8px
+
+    display -webkit-flex
+
+    .icon
+      width 40px
+
+    .content
+      overflow hidden
+      font-family Ubuntu
+
+      &>div
+        text-overflow ellipsis
+        overflow hidden
+
+      .title
+        height 20px
+
+      .url
+        font-size 10px
+        color hsl(240,90,70)
+        height 16px
