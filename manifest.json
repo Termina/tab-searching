@@ -20,8 +20,13 @@
     "tabs",
     "history",
     "bookmarks",
+    "chrome://favicon/",
     "http://*/*",
     "https://*/*"
+  ],
+  "web_accessible_resources": [
+    "lib/*",
+    "build/*"
   ],
   "browser_action": {
     "default_icon": "pic/s.png"

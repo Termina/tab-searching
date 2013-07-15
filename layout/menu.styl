@@ -2,6 +2,18 @@
 *
   box-sizing border-box
 
+::-webkit-scrollbar
+  width 4px
+  height 4px
+
+::-webkit-scrollbar-track
+  width 4px
+  background white
+
+::-webkit-scrollbar-thumb
+  background hsl(0,60,90)
+  border-radius 2px
+
 body
   margin 0px
 
@@ -19,23 +31,23 @@ body
 #menu
   width 100%
   height 570px
-  background hsl(0,0,90)
+  // background hsl(0,0,90)
   overflow-y scroll
-
-  &>.tab:nth-child(2n)
-    background hsl(0,0,96)
 
   .tab
     padding 6px 8px
-
-    display -webkit-flex
+    box-shadow 0px 2px 5px hsl(0,0,90)
+    position relative
 
     .icon
-      width 40px
+      top 4px
+      right 4px
+      position absolute
 
     .content
       overflow hidden
       font-family Ubuntu
+      width 340px
 
       &>div
         text-overflow ellipsis
@@ -46,5 +58,11 @@ body
 
       .url
         font-size 10px
-        color hsl(240,90,70)
+        color hsl(240,90,90)
         height 16px
+
+  #choose
+    background hsl(0,0,80)
+
+    .url
+      color white

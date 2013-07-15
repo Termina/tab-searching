@@ -1,6 +1,18 @@
 * {
   box-sizing: border-box;
 }
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  width: 4px;
+  background: #fff;
+}
+::-webkit-scrollbar-thumb {
+  background: #f5d6d6;
+  border-radius: 2px;
+}
 body {
   margin: 0px;
 }
@@ -18,22 +30,22 @@ body {
 #menu {
   width: 100%;
   height: 570px;
-  background: #e6e6e6;
   overflow-y: scroll;
-}
-#menu>.tab:nth-child(2n) {
-  background: #f5f5f5;
 }
 #menu .tab {
   padding: 6px 8px;
-  display: -webkit-flex;
+  box-shadow: 0px 2px 5px #e6e6e6;
+  position: relative;
 }
 #menu .tab .icon {
-  width: 40px;
+  top: 4px;
+  right: 4px;
+  position: absolute;
 }
 #menu .tab .content {
   overflow: hidden;
   font-family: Ubuntu;
+  width: 340px;
 }
 #menu .tab .content>div {
   text-overflow: ellipsis;
@@ -44,6 +56,12 @@ body {
 }
 #menu .tab .content .url {
   font-size: 10px;
-  color: #6e6ef7;
+  color: #cfcffc;
   height: 16px;
+}
+#menu #choose {
+  background: #ccc;
+}
+#menu #choose .url {
+  color: #fff;
 }
