@@ -22,6 +22,9 @@ time = -> (new Date).getTime()
 # cache
 
 timeCache = 0
+initialTab = undefined
+thisTab = undefined
+# chrome.tabs.getCurrent (tab) -> thisTab = tab
 
 # main function
 
@@ -38,14 +41,31 @@ suggest = (text) ->
   # begin logic
 
   list = []
+
   wait = new Wait
   menuHtml = ''
   wait.task = ->
-    list.map (data) -> menuHtml += render data
-    menu.innerHTML = menuHtml
-    first = menu.children[0]
-    if first?
-      first.id = 'choose'
+    choice = []
+    list.map (tab) ->
+      if tab.title is '@_@'
+        console.log 'hide it'
+      else if tab.active
+        choice.unshift tab
+        initialTab = tab
+      else
+        choice.push tab
+
+    if choice[0]?
+      choice.map (data) -> menuHtml += render data
+      menu.innerHTML = menuHtml
+      first = menu.children[0]
+      if first?
+        first.id = 'choose'
+        goto first
+    else if text is 'hope you like it'
+      menu.innerHTML = '<div id="empty">:) hope you like it..</div>'
+    else
+      menu.innerHTML = '<div id="empty">:( no tab..</div>'
 
   addOne = (tab) ->
     urlList = list.map (tab) -> tab.url
@@ -80,19 +100,25 @@ input.addEventListener 'input', -> suggest input.value
 input.onkeydown = (event) ->
   if event.keyCode is 13
     selected = q('#choose')
-    if selected? then gotoTab (parseInt selected.getAttribute('data-tabid'))
+    window.close()
   else if event.keyCode is 40 # down arrow
     nextTab = q('#choose').nextElementSibling
     if nextTab?
       q('#choose').id = ''
       nextTab.id = 'choose'
       nextTab.scrollIntoViewIfNeeded()
+      goto nextTab
   else if event.keyCode is 38 # up arrow
     lastTab = q('#choose').previousElementSibling
     if lastTab?
       q('#choose').id = ''
       lastTab.id = 'choose'
       lastTab.scrollIntoViewIfNeeded()
+      goto lastTab
+  else if event.keyCode is 27
+    if initialTab?
+      gotoTab initialTab.id
+      window.close()
 
 # helpers for rendering
 
@@ -110,18 +136,8 @@ render = (data) ->
   </div>
   """
 
-gotoTab = (tabid) ->
-  chrome.tabs.get tabid, (tab) ->
-    if tab?
-      chrome.tabs.update tabid, selected: yes
-      window.close()
-    else
-      url = q('#choose').querySelector('.url').innerText
-      options =
-        url: url
-        active: yes
-      chrome.tabs.create options
-      window.close()
+gotoTab = (tabid) -> chrome.tabs.update tabid, selected: yes
+goto = (elem) -> gotoTab (parseInt elem.getAttribute('data-tabid'))
 
 # init main function
 
