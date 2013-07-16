@@ -7,4 +7,6 @@ chrome.runtime.onMessage.addListener (req, sender, msg) ->
       left: 600
       width: 400
       height: 600
-    chrome.windows.create popup
+      focused: yes
+    chrome.windows.create popup, (win) ->
+      win.alwaysOnTop = yes
