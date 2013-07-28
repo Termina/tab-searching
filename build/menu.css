@@ -1,16 +1,17 @@
 * {
   box-sizing: border-box;
+  font-family: 'Lucida Grande';
 }
 ::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   width: 4px;
   background: #fff;
 }
 ::-webkit-scrollbar-thumb {
-  background: #f5d6d6;
+  background: #c99c9c;
   border-radius: 2px;
 }
 body {
@@ -24,18 +25,22 @@ body {
   line-height: 20px;
   box-shadow: 0px 0px 8px #ccc;
   padding: 4px 6px;
-  font-family: 'Ubuntu Mono';
+  font-family: 'Lucida Grande', 'Ubuntu Mono';
   font-size: 14px;
 }
 #menu {
   width: 100%;
   height: 570px;
   overflow-y: scroll;
+  padding: 60px 0px 200px 0px;
 }
 #menu .tab {
   padding: 6px 8px;
-  box-shadow: 0px 2px 5px #e6e6e6;
   position: relative;
+  color: #808080;
+  -webkit-transform-origin: left center;
+  -webkit-transform: scale(1);
+  -webkit-transition-duration: 0.06s;
 }
 #menu .tab .icon {
   top: 4px;
@@ -61,10 +66,12 @@ body {
   height: 16px;
 }
 #menu #choose {
-  background: #ccc;
+  background: #e6e6e6;
+  color: #000;
+  -webkit-transform: scale(1.1);
 }
 #menu #choose .url {
-  color: #fff;
+  color: #339;
 }
 #empty {
   padding: 40px;
