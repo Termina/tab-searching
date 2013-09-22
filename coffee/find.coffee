@@ -60,8 +60,13 @@ suggest = (text) ->
 next_action = null
 delay = (t, f) -> setTimeout f, t
 wait_to_do = (action) ->
-  if next_action? then clearTimeout next_action
-  next_action = delay 200, action
+  action() unless next_action?
+  next_action = action
+  if next_action?
+    delay 200, ->
+      next_action()
+      next_action = null
+      wait_to_do()
 
 input.addEventListener 'input', -> 
   wait_to_do -> suggest input.value
