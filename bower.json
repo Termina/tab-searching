@@ -1,0 +1,23 @@
+{
+  "name": "search-tab-crx",
+  "version": "0.0.2",
+  "homepage": "https://github.com/jiyinyiyong/search-tab-crx",
+  "authors": [
+    "jiyinyiyong <jiyinyiyong@gmail.com>"
+  ],
+  "description": "Chrome tab searching tool",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs": "~2.1.9",
+    "ractive": "~0.3.7",
+    "cirru-parser": "*",
+    "cirru-to-mustache": "~0.0.2"
+  }
+}

@@ -5,7 +5,7 @@ last_window_id = undefined
 openWindow = ->
   popup =
     type: 'popup'
-    url: 'build/select.html'
+    url: 'index.html'
     left: 600
     width: 400
     height: 600

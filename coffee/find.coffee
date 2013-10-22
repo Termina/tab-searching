@@ -1,121 +1,123 @@
 
-# helpers
+define (require, exports) ->
+  # helpers
 
-isKeyword = (char) -> char.match(/[\w\d\s\u4E00-\u9FA5]/)?
+  console.log require("Ractive")
 
-fuzzy = (text) ->
-  query = text.split('').filter(isKeyword).join('.*')
-  new RegExp query, 'i'
+  isKeyword = (char) -> char.match(/[\w\d\s\u4E00-\u9FA5]/)?
 
-q = (query) -> document.querySelector query
+  fuzzy = (text) ->
+    query = text.split('').filter(isKeyword).join('.*')
+    new RegExp query, 'i'
 
-# cache
+  q = (query) -> document.querySelector query
 
-initialTab = undefined
+  # cache
 
-# setup close event
+  initialTab = undefined
 
-window.onbeforeunload = ->
-  chrome.extension.sendMessage word: 'close', (res) ->
-    console.log 'after close', res
+  # setup close event
 
-# main function
+  window.onbeforeunload = ->
+    chrome.extension.sendMessage word: 'close', (res) ->
+      console.log 'after close', res
 
-input = q('#key')
-menu = q('#menu')
+  # main function
 
-suggest = (text) ->
-  list = []
+  input = q('#key')
+  menu = q('#menu')
 
-  show_list = ->
-    choice = []
-    list.map (tab) ->
-      if tab.title is 'Search Tabs' then console.log 'hide', tab
-      else if tab.active
-        initialTab = tab unless initialTab?
-        choice.unshift tab
-        chrome.extension.sendMessage word: 'log', data: tab
-      else choice.push tab
+  suggest = (text) ->
+    list = []
 
-    if choice[0]?
-      menu.innerHTML = choice.map((data) -> render data).join('')
-      first = menu.children[0]
-      if first?
-        first.id = 'choose'
-        goto first
-    else
-      menu.innerHTML = '<div id="empty">:( no tab..</div>'
+    show_list = ->
+      choice = []
+      list.map (tab) ->
+        if tab.title is 'Search Tabs' then console.log 'hide', tab
+        else if tab.active
+          initialTab = tab unless initialTab?
+          choice.unshift tab
+          chrome.extension.sendMessage word: 'log', data: tab
+        else choice.push tab
 
-  addOne = (tab) ->
-    if tab.url.match(/^http/)?
-      urlList = list.map (tab) -> tab.url
-      list.push tab unless tab.url in urlList
+      if choice[0]?
+        menu.innerHTML = choice.map((data) -> render data).join('')
+        first = menu.children[0]
+        if first?
+          first.id = 'choose'
+          goto first
+      else
+        menu.innerHTML = '<div id="empty">:( no tab..</div>'
 
-  chrome.tabs.query {}, (tabs) ->
-    tabs.filter((tab) -> tab.title.indexOf(text) >= 0).map(addOne)
-    tabs.filter((tab) -> tab.url.indexOf(text) >= 0).map(addOne)
-    tabs.filter((tab) -> tab.title.match(fuzzy text)?).map(addOne)
-    show_list()
+    addOne = (tab) ->
+      if tab.url.match(/^http/)?
+        urlList = list.map (tab) -> tab.url
+        list.push tab unless tab.url in urlList
 
-next_action = null
-delay = (t, f) -> setTimeout f, t
-wait_to_do = (action) ->
-  action() unless next_action?
-  next_action = action
-  if next_action?
-    delay 200, ->
-      next_action()
-      next_action = null
-      wait_to_do()
+    chrome.tabs.query {}, (tabs) ->
+      tabs.filter((tab) -> tab.title.indexOf(text) >= 0).map(addOne)
+      tabs.filter((tab) -> tab.url.indexOf(text) >= 0).map(addOne)
+      tabs.filter((tab) -> tab.title.match(fuzzy text)?).map(addOne)
+      show_list()
 
-input.addEventListener 'input', -> 
-  wait_to_do -> suggest input.value
+  next_action = null
+  delay = (t, f) -> setTimeout f, t
+  wait_to_do = (action) ->
+    action() unless next_action?
+    next_action = action
+    if next_action?
+      delay 200, ->
+        next_action()
+        next_action = null
+        wait_to_do()
 
-input.onkeydown = (event) ->
-  if event.keyCode is 13
-    selected = q('#choose')
-    window.close()
-  else if event.keyCode is 40 # down arrow
-    nextTab = q('#choose').nextElementSibling
-    if nextTab?
-      q('#choose').id = ''
-      nextTab.id = 'choose'
-      nextTab.scrollIntoViewIfNeeded()
-      goto nextTab
-  else if event.keyCode is 38 # up arrow
-    lastTab = q('#choose').previousElementSibling
-    if lastTab?
-      q('#choose').id = ''
-      lastTab.id = 'choose'
-      lastTab.scrollIntoViewIfNeeded()
-      goto lastTab
-  else if event.keyCode is 27 # esc key
-    chrome.extension.sendMessage word: 'log', data: initialTab
-    if initialTab?
-      gotoTab initialTab.id
-      debugger
+  input.addEventListener 'input', -> 
+    wait_to_do -> suggest input.value
+
+  document.body.onkeydown = (event) ->
+    if event.keyCode is 13
+      selected = q('#choose')
       window.close()
+    else if event.keyCode is 40 # down arrow
+      nextTab = q('#choose').nextElementSibling
+      if nextTab?
+        q('#choose').id = ''
+        nextTab.id = 'choose'
+        nextTab.scrollIntoViewIfNeeded()
+        goto nextTab
+    else if event.keyCode is 38 # up arrow
+      lastTab = q('#choose').previousElementSibling
+      if lastTab?
+        q('#choose').id = ''
+        lastTab.id = 'choose'
+        lastTab.scrollIntoViewIfNeeded()
+        goto lastTab
+    else if event.keyCode is 27 # esc key
+      chrome.extension.sendMessage word: 'log', data: initialTab
+      if initialTab?
+        gotoTab initialTab.id
+        window.close()
 
-# helpers for rendering
+  # helpers for rendering
 
-render = (data) ->
-  # data has [title, url, id, icon]
-  # data.url = data.url.replace(/https?\:\/\//, '')
-  img = (link) -> "<img src='#{link}' class='icon'>"
-  """
-  <div class='tab' #{if data.id? then "data-tabid='#{data.id}'" else '' }>
-    <div class='content'>
-      <div class='title'>#{data.title}</div>
-      <div class='url'>#{data.url}</div>
+  render = (data) ->
+    # data has [title, url, id, icon]
+    # data.url = data.url.replace(/https?\:\/\//, '')
+    img = (link) -> "<img src='#{link}' class='icon'>"
+    """
+    <div class='tab' #{if data.id? then "data-tabid='#{data.id}'" else '' }>
+      <div class='content'>
+        <div class='title'>#{data.title}</div>
+        <div class='url'>#{data.url}</div>
+      </div>
+      #{ if data.favIconUrl? then (img data.favIconUrl) else '' }
     </div>
-    #{ if data.favIconUrl? then (img data.favIconUrl) else '' }
-  </div>
-  """
+    """
 
-gotoTab = (tabid) -> chrome.tabs.update tabid, selected: yes
-goto = (elem) -> gotoTab (parseInt elem.getAttribute('data-tabid'))
+  gotoTab = (tabid) -> chrome.tabs.update tabid, selected: yes
+  goto = (elem) -> gotoTab (parseInt elem.getAttribute('data-tabid'))
 
-# init main function
+  # init main function
 
-input.focus()
-suggest ''
+  input.focus()
+  suggest ''
