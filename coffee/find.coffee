@@ -23,7 +23,18 @@ define (require, exports) ->
     el: q('#menu')
     template: listTmpl
     data:
+      currentAt: 0
       list: []
+      highlightSelected: (selected) ->
+        if selected
+          "selected"
+        else
+          ""
+      highlightCurrentAt: (currentAt, num) ->
+        if currentAt is num
+          "currentAt"
+        else
+          ""
 
   # cache
 
@@ -41,6 +52,7 @@ define (require, exports) ->
   menu = q('#menu')
 
   suggest = (text) ->
+    page_list.data.currentAt = 0
     list = page_list.data.list = []
 
     show_list = ->
@@ -70,30 +82,38 @@ define (require, exports) ->
 
   document.body.onkeydown = (event) ->
     if event.keyCode is 13
-      selected = q('#choose')
       window.close()
+
     else if event.keyCode is 40 # down arrow
-      nextTab = q('#choose').nextElementSibling
-      if nextTab?
-        q('#choose').id = ''
-        nextTab.id = 'choose'
-        nextTab.scrollIntoViewIfNeeded()
-        goto nextTab
+      currentAt = page_list.data.currentAt
+      length = page_list.data.list.length
+      if (currentAt + 1) < length
+        page_list.set "currentAt", (currentAt + 1)
+      context = page_list.data.list[page_list.data.currentAt]
+      gotoTab context.id
+
     else if event.keyCode is 38 # up arrow
-      lastTab = q('#choose').previousElementSibling
-      if lastTab?
-        q('#choose').id = ''
-        lastTab.id = 'choose'
-        lastTab.scrollIntoViewIfNeeded()
-        goto lastTab
+      currentAt = page_list.data.currentAt
+      if currentAt > 0
+        page_list.set "currentAt", (currentAt - 1)
+      context = page_list.data.list[page_list.data.currentAt]
+      gotoTab context.id
+
     else if event.keyCode is 27 # esc key
       chrome.extension.sendMessage word: 'log', data: initialTab
       if initialTab?
         gotoTab initialTab.id
         window.close()
 
-  gotoTab = (tabid) -> chrome.tabs.update tabid, selected: yes
-  goto = (elem) -> gotoTab (parseInt elem.getAttribute('data-tabid'))
+  gotoTab = (tabid) ->
+    console.log "going to", tabid
+    chrome.tabs.update tabid, selected: yes
+
+  # handle events
+
+  page_list.on "select", (event) ->
+    gotoTab event.context.id
+    window.close()
 
   # init main function
 

@@ -1,13 +1,14 @@
 {
   "name": "search-tab-crx",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "manifest_version": 2,
   "icons": {
-    "48": "pic/s.png"
+    "48": "pic/search-48.png"
   },
   "background": {
     "scripts": ["lib/bg.js"]
   },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "permissions": [
     "tabs",
     "history",
@@ -22,7 +23,7 @@
     "coffee/*"
   ],
   "browser_action": {
-    "default_icon": "pic/s.png"
+    "default_icon": "pic/search-128.png"
   },
   "commands": {
     "launch": {

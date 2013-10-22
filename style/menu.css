@@ -46,7 +46,14 @@ body {
   -webkit-transition-duration: 0.06s;
   margin: 0;
   background-color: rgb(255, 255, 255);
-  box-shadow: 0 0 4px gray;
+  box-shadow: 0 0 6px rgb(172, 164, 164);
+  cursor: pointer;
+}
+#menu .tab.selected {
+    border-left: 8px solid rgb(204, 202, 214);
+}
+#menu .tab.currentAt {
+    border-left: 8px solid rgb(224, 194, 115);
 }
 #menu .tab .icon {
   top: 4px;
