@@ -1,8 +1,13 @@
 
 define (require, exports) ->
-  # helpers
+  Ractive = require "Ractive"
+  cirru = require "cirru"
+  c2m = require "c2m"
 
-  console.log require("Ractive")
+  listTmplText = require "text!cirru_list"
+  cirru.parse.compact = yes
+  listTmpl = c2m.render cirru.parse listTmplText
+  # helpers
 
   isKeyword = (char) -> char.match(/[\w\d\s\u4E00-\u9FA5]/)?
 
@@ -11,6 +16,14 @@ define (require, exports) ->
     new RegExp query, 'i'
 
   q = (query) -> document.querySelector query
+
+  # ractive part
+
+  page_list = new Ractive
+    el: q('#menu')
+    template: listTmpl
+    data:
+      list: []
 
   # cache
 
@@ -28,7 +41,7 @@ define (require, exports) ->
   menu = q('#menu')
 
   suggest = (text) ->
-    list = []
+    list = page_list.data.list = []
 
     show_list = ->
       choice = []
@@ -39,15 +52,7 @@ define (require, exports) ->
           choice.unshift tab
           chrome.extension.sendMessage word: 'log', data: tab
         else choice.push tab
-
-      if choice[0]?
-        menu.innerHTML = choice.map((data) -> render data).join('')
-        first = menu.children[0]
-        if first?
-          first.id = 'choose'
-          goto first
-      else
-        menu.innerHTML = '<div id="empty">:( no tab..</div>'
+      page_list.update "list"
 
     addOne = (tab) ->
       if tab.url.match(/^http/)?
@@ -60,19 +65,8 @@ define (require, exports) ->
       tabs.filter((tab) -> tab.title.match(fuzzy text)?).map(addOne)
       show_list()
 
-  next_action = null
-  delay = (t, f) -> setTimeout f, t
-  wait_to_do = (action) ->
-    action() unless next_action?
-    next_action = action
-    if next_action?
-      delay 200, ->
-        next_action()
-        next_action = null
-        wait_to_do()
-
   input.addEventListener 'input', -> 
-    wait_to_do -> suggest input.value
+    suggest input.value
 
   document.body.onkeydown = (event) ->
     if event.keyCode is 13
@@ -97,22 +91,6 @@ define (require, exports) ->
       if initialTab?
         gotoTab initialTab.id
         window.close()
-
-  # helpers for rendering
-
-  render = (data) ->
-    # data has [title, url, id, icon]
-    # data.url = data.url.replace(/https?\:\/\//, '')
-    img = (link) -> "<img src='#{link}' class='icon'>"
-    """
-    <div class='tab' #{if data.id? then "data-tabid='#{data.id}'" else '' }>
-      <div class='content'>
-        <div class='title'>#{data.title}</div>
-        <div class='url'>#{data.url}</div>
-      </div>
-      #{ if data.favIconUrl? then (img data.favIconUrl) else '' }
-    </div>
-    """
 
   gotoTab = (tabid) -> chrome.tabs.update tabid, selected: yes
   goto = (elem) -> gotoTab (parseInt elem.getAttribute('data-tabid'))
