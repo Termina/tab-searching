@@ -15,8 +15,8 @@ openWindow = ->
     console.log 'saving last_window_id', 
     last_window_id = win.id
 
-chrome.extension.onMessage.addListener (req, sender, msg) ->
-  if req.word is 'open'
+chrome.commands.onCommand.addListener (command) ->
+  if command is "launch"
     console.log 'going to open a windows'
     console.info 'has_open_window', has_open_window
     console.info 'last_window_id', last_window_id
@@ -26,7 +26,9 @@ chrome.extension.onMessage.addListener (req, sender, msg) ->
     else
       openWindow()
       has_open_window = yes
-  else if req.word is 'close'
+
+chrome.extension.onMessage.addListener (req, sender, msg) ->
+  if req.word is 'close'
     console.log 'close'
     has_open_window = no
     last_window_id = null
