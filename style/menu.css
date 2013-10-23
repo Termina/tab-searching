@@ -81,17 +81,4 @@ body {
   color: #cfcffc;
   height: 16px;
 }
-#menu #choose {
-  background: #e6e6e6;
-  color: #000;
-  -webkit-transform: scale(1.1);
-}
-#menu #choose .url {
-  color: #339;
-}
-#empty {
-  padding: 40px;
-  font-family: 'Ubuntu Mono';
-  color: #00f;
-  text-shadow: 0px 0px 6px #c2c2d6;
-}
+

@@ -33,3 +33,11 @@ So I decided to write my own one, which looks like:
 
 `git clone` this repo and load the code in develop mode of Chrome.  
 You are most likely to see how it works at this moment.
+
+### Icon
+
+https://www.iconfinder.com/icons/103703/search_icon#size=128
+
+### License
+
+MIT
