@@ -4,19 +4,21 @@ last_window_id = undefined
 popup =
   type: 'popup'
   url: 'index.html'
-  left: 600
-  width: 400
-  height: 600
   focused: yes
+  width: 400
 
 openWindow = ->
-  chrome.tabs.query active: yes, (tabs) ->
-    chrome.windows.create popup, (win) ->
-      chrome.windows.update win.id, drawAttention: yes
-      last_window_id = win.id
-      tab = tabs[0]
-      console.log "tab:", tab
-      chrome.extension.sendMessage type: "initial", tab: tab
+  chrome.windows.getCurrent (from_win) ->
+    popup.left = from_win.width - popup.width + from_win.left
+    popup.top = from_win.top
+    popup.height = from_win.height - 24
+    chrome.tabs.query active: yes, (tabs) ->
+      chrome.windows.create popup, (win) ->
+        chrome.windows.update win.id, drawAttention: yes
+        last_window_id = win.id
+        tab = tabs[0]
+        console.log "tab:", tab
+        chrome.extension.sendMessage type: "initial", tab: tab
 
 chrome.commands.onCommand.addListener (command) ->
   if command is "launch"
