@@ -26,20 +26,17 @@ define (require, exports) ->
       currentAt: 0
       list: []
       highlightSelected: (selected) ->
-        if selected
-          "selected"
-        else
-          ""
+        if selected then "selected" else ""
       highlightCurrentAt: (currentAt, num) ->
-        if currentAt is num
-          "currentAt"
-        else
-          ""
+        if currentAt is num then "currentAt" else ""
 
   # cache
 
   initialTab = undefined
-
+  chrome.extension.onMessage.addListener (request) ->
+    console.log "got extension request", request
+    if request.type is "initial"
+      initialTab = request.tab
   # setup close event
 
   window.onbeforeunload = ->
@@ -53,24 +50,22 @@ define (require, exports) ->
 
   all_tabs = []
   chrome.tabs.query {}, (tabs) ->
-    page_list.data.list = all_tabs = tabs
+    tabs.map (tab) ->
+      if tab.title is 'Search Tabs'
+        console.log 'hide', tab
+      else if initialTab.id is tab.id
+        all_tabs.unshift tab
+        chrome.extension.sendMessage word: 'log', data: tab
+      else
+        all_tabs.push tab
+    page_list.data.list = all_tabs
     page_list.update "list"
 
   show_list = (list) ->
-    choice = []
-    list.map (tab) ->
-      if tab.title is 'Search Tabs'
-        console.log 'hide', tab
-      else if tab.active
-        initialTab = tab unless initialTab?
-        choice.unshift tab
-        chrome.extension.sendMessage word: 'log', data: tab
-      else
-        choice.push tab
-    page_list.data.list = choice
+    page_list.data.list = list
     page_list.update "list"
-    if choice[0]?
-      gotoTab choice[0].id
+    if list[0]?
+      gotoTab list[0].id
 
   suggest = (text) ->
     page_list.data.currentAt = 0
@@ -113,18 +108,20 @@ define (require, exports) ->
     else if event.keyCode is 27 # esc key
       chrome.extension.sendMessage word: 'log', data: initialTab
       if initialTab?
-        gotoTab initialTab.id
-        window.close()
+        gotoTab initialTab.id, ->
+          window.close()
 
-  gotoTab = (tabid) ->
+  gotoTab = (tabid, callback) ->
     console.log "going to", tabid
-    chrome.tabs.update tabid, selected: yes
+    chrome.tabs.update tabid, selected: yes, ->
+      callback?()
+    q('.currentAt').scrollIntoViewIfNeeded()
 
   # handle events
 
   page_list.on "select", (event) ->
-    gotoTab event.context.id
-    window.close()
+    gotoTab event.context.id, ->
+      window.close()
 
   # init main function
 

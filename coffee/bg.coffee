@@ -1,19 +1,22 @@
 
 has_open_window = no
 last_window_id = undefined
+popup =
+  type: 'popup'
+  url: 'index.html'
+  left: 600
+  width: 400
+  height: 600
+  focused: yes
 
 openWindow = ->
-  popup =
-    type: 'popup'
-    url: 'index.html'
-    left: 600
-    width: 400
-    height: 600
-    focused: yes
-  chrome.windows.create popup, (win) ->
-    chrome.windows.update win.id, drawAttention: yes
-    console.log 'saving last_window_id', 
-    last_window_id = win.id
+  chrome.tabs.query active: yes, (tabs) ->
+    chrome.windows.create popup, (win) ->
+      chrome.windows.update win.id, drawAttention: yes
+      last_window_id = win.id
+      tab = tabs[0]
+      console.log "tab:", tab
+      chrome.extension.sendMessage type: "initial", tab: tab
 
 chrome.commands.onCommand.addListener (command) ->
   if command is "launch"
