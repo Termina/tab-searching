@@ -105,10 +105,10 @@ define (require, exports) ->
 
     else if event.keyCode is 37 # left
       if page_list.data.list[page_list.data.currentAt]?
-        data = page_list.data
-        currentAt = data.currentAt
-        the_tab = data.list[currentAt]
-        data.list.splice currentAt, 1
+        currentAt = page_list.data.currentAt
+        the_tab = page_list.data.list[currentAt]
+        page_list.data.list.splice currentAt, 1
+        page_list.set "currentAt", currentAt
         chrome.tabs.remove the_tab.id
         all_tabs = all_tabs.filter (tab) ->
           tabs.id isnt the_tab.id
@@ -134,4 +134,6 @@ define (require, exports) ->
   # init main function
 
   input.focus()
+  window.onblur = ->
+    window.close()
   suggest ''
