@@ -51,31 +51,40 @@ define (require, exports) ->
   input = q('#key')
   menu = q('#menu')
 
+  all_tabs = []
+  chrome.tabs.query {}, (tabs) ->
+    page_list.data.list = all_tabs = tabs
+    page_list.update "list"
+
+  show_list = (list) ->
+    choice = []
+    list.map (tab) ->
+      if tab.title is 'Search Tabs'
+        console.log 'hide', tab
+      else if tab.active
+        initialTab = tab unless initialTab?
+        choice.unshift tab
+        chrome.extension.sendMessage word: 'log', data: tab
+      else
+        choice.push tab
+    page_list.data.list = choice
+    page_list.update "list"
+    if choice[0]?
+      gotoTab choice[0].id
+
   suggest = (text) ->
     page_list.data.currentAt = 0
-    list = page_list.data.list = []
-
-    show_list = ->
-      choice = []
-      list.map (tab) ->
-        if tab.title is 'Search Tabs' then console.log 'hide', tab
-        else if tab.active
-          initialTab = tab unless initialTab?
-          choice.unshift tab
-          chrome.extension.sendMessage word: 'log', data: tab
-        else choice.push tab
-      page_list.update "list"
+    list = []
 
     addOne = (tab) ->
       if tab.url.match(/^http/)?
         urlList = list.map (tab) -> tab.url
         list.push tab unless tab.url in urlList
 
-    chrome.tabs.query {}, (tabs) ->
-      tabs.filter((tab) -> tab.title.indexOf(text) >= 0).map(addOne)
-      tabs.filter((tab) -> tab.url.indexOf(text) >= 0).map(addOne)
-      tabs.filter((tab) -> tab.title.match(fuzzy text)?).map(addOne)
-      show_list()
+    all_tabs.filter((tab) -> tab.title.indexOf(text) >= 0).map(addOne)
+    all_tabs.filter((tab) -> tab.url.indexOf(text) >= 0).map(addOne)
+    all_tabs.filter((tab) -> tab.title.match(fuzzy text)?).map(addOne)
+    show_list list
 
   input.addEventListener 'input', -> 
     suggest input.value
@@ -85,6 +94,7 @@ define (require, exports) ->
       window.close()
 
     else if event.keyCode is 40 # down arrow
+      event.preventDefault()
       currentAt = page_list.data.currentAt
       length = page_list.data.list.length
       if (currentAt + 1) < length
@@ -93,6 +103,7 @@ define (require, exports) ->
       gotoTab context.id
 
     else if event.keyCode is 38 # up arrow
+      event.preventDefault()
       currentAt = page_list.data.currentAt
       if currentAt > 0
         page_list.set "currentAt", (currentAt - 1)
