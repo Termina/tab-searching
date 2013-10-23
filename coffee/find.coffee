@@ -49,32 +49,31 @@ define (require, exports) ->
   input = q('#key')
   menu = q('#menu')
 
-  all_tabs = []
-  chrome.tabs.query {}, (tabs) ->
-    tabs.map (tab) ->
-      if tab.title is 'Search Tabs'
-        console.log 'hide', tab
-      else if initialTab.id is tab.id
-        all_tabs.unshift tab
-        chrome.extension.sendMessage word: 'log', data: tab
-      else
-        all_tabs.push tab
-    page_list.set "list", all_tabs
+  find_text = (tab, text) ->
+    if tab.title.indexOf(text) >= 0
+      yes
+    else if tab.url.indexOf(text) >= 0
+      yes
+    else if tab.title.match(fuzzy text)?
+      yes
+    else
+      no
 
   suggest = (text) ->
-    list = []
 
-    addOne = (tab) ->
-      if tab.url.match(/^http/)?
-        urlList = list.map (tab) -> tab.url
-        list.push tab unless tab.url in urlList
+    chrome.tabs.query {}, (tabs) ->
+      list = []
+      tabs.map (tab) ->
+        if find_text tab, text
+          if initialTab.id is tab.id
+            list.unshift tab
+          else if tab.title isnt 'Search Tabs'
+            list.push tab
+      page_list.set "list", list
 
-    all_tabs.filter((tab) -> tab.title.indexOf(text) >= 0).map(addOne)
-    all_tabs.filter((tab) -> tab.url.indexOf(text) >= 0).map(addOne)
-    all_tabs.filter((tab) -> tab.title.match(fuzzy text)?).map(addOne)
-    page_list.set "list", list
-    gotoTab list[0].id if list[0]?
-    page_list.set "currentAt", 0
+      page_list.set "list", list
+      gotoTab list[0].id if list[0]?
+      page_list.set "currentAt", 0
 
   input.addEventListener 'input', -> 
     suggest input.value
@@ -106,6 +105,7 @@ define (require, exports) ->
       console.log "right"
 
     else if event.keyCode is 37 # left
+      event.preventDefault()
       currentAt = page_list.data.currentAt
       list = page_list.data.list
       the_tab = list[currentAt]
