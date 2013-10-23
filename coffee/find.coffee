@@ -19,7 +19,7 @@ define (require, exports) ->
 
   # ractive part
 
-  page_list = new Ractive
+  window.page_list = new Ractive
     el: q('#menu')
     template: listTmpl
     data:
@@ -28,6 +28,7 @@ define (require, exports) ->
       highlightSelected: (selected) ->
         if selected then "selected" else ""
       highlightCurrentAt: (currentAt, num) ->
+        console.log "currentAt: #{currentAt}, num: #{num}"
         if currentAt is num then "currentAt" else ""
 
   # cache
@@ -58,8 +59,7 @@ define (require, exports) ->
         chrome.extension.sendMessage word: 'log', data: tab
       else
         all_tabs.push tab
-    page_list.data.list = all_tabs
-    page_list.update "list"
+    page_list.set "list", all_tabs
 
   suggest = (text) ->
     list = []
@@ -88,30 +88,34 @@ define (require, exports) ->
       currentAt = page_list.data.currentAt
       length = page_list.data.list.length
       if (currentAt + 1) < length
-        page_list.set "currentAt", (currentAt + 1)
-      context = page_list.data.list[page_list.data.currentAt]
+        currentAt += 1
+      page_list.set "currentAt", currentAt
+      context = page_list.data.list[currentAt]
       gotoTab context.id
 
     else if event.keyCode is 38 # up arrow
       event.preventDefault()
       currentAt = page_list.data.currentAt
       if currentAt > 0
-        page_list.set "currentAt", (currentAt - 1)
-      context = page_list.data.list[page_list.data.currentAt]
+        currentAt -= 1
+      page_list.set "currentAt", currentAt
+      context = page_list.data.list[currentAt]
       gotoTab context.id
 
     else if event.keyCode is 39 # right
       console.log "right"
 
     else if event.keyCode is 37 # left
-      if page_list.data.list[page_list.data.currentAt]?
-        currentAt = page_list.data.currentAt
-        the_tab = page_list.data.list[currentAt]
-        page_list.data.list.splice currentAt, 1
-        page_list.set "currentAt", currentAt
-        chrome.tabs.remove the_tab.id
-        all_tabs = all_tabs.filter (tab) ->
-          tabs.id isnt the_tab.id
+      currentAt = page_list.data.currentAt
+      list = page_list.data.list
+      the_tab = list[currentAt]
+      list.splice currentAt, 1
+      if currentAt >= list.length > 0
+        currentAt -= 1
+      page_list.set "currentAt", currentAt
+      chrome.tabs.remove the_tab.id
+      all_tabs = all_tabs.filter (tab) ->
+        tab.id isnt the_tab.id
 
     else if event.keyCode is 27 # esc key
       chrome.extension.sendMessage word: 'log', data: initialTab
@@ -123,7 +127,7 @@ define (require, exports) ->
     console.log "going to", tabid
     chrome.tabs.update tabid, selected: yes, ->
       callback?()
-    q('.currentAt').scrollIntoViewIfNeeded()
+    q('.currentAt')?.scrollIntoViewIfNeeded?()
 
   # handle events
 
@@ -135,5 +139,5 @@ define (require, exports) ->
 
   input.focus()
   window.onblur = ->
-    window.close()
+    # window.close()
   suggest ''
