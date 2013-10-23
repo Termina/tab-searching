@@ -61,14 +61,7 @@ define (require, exports) ->
     page_list.data.list = all_tabs
     page_list.update "list"
 
-  show_list = (list) ->
-    page_list.data.list = list
-    page_list.update "list"
-    if list[0]?
-      gotoTab list[0].id
-
   suggest = (text) ->
-    page_list.data.currentAt = 0
     list = []
 
     addOne = (tab) ->
@@ -79,7 +72,9 @@ define (require, exports) ->
     all_tabs.filter((tab) -> tab.title.indexOf(text) >= 0).map(addOne)
     all_tabs.filter((tab) -> tab.url.indexOf(text) >= 0).map(addOne)
     all_tabs.filter((tab) -> tab.title.match(fuzzy text)?).map(addOne)
-    show_list list
+    page_list.set "list", list
+    gotoTab list[0].id if list[0]?
+    page_list.set "currentAt", 0
 
   input.addEventListener 'input', -> 
     suggest input.value
@@ -104,6 +99,19 @@ define (require, exports) ->
         page_list.set "currentAt", (currentAt - 1)
       context = page_list.data.list[page_list.data.currentAt]
       gotoTab context.id
+
+    else if event.keyCode is 39 # right
+      console.log "right"
+
+    else if event.keyCode is 37 # left
+      if page_list.data.list[page_list.data.currentAt]?
+        data = page_list.data
+        currentAt = data.currentAt
+        the_tab = data.list[currentAt]
+        data.list.splice currentAt, 1
+        chrome.tabs.remove the_tab.id
+        all_tabs = all_tabs.filter (tab) ->
+          tabs.id isnt the_tab.id
 
     else if event.keyCode is 27 # esc key
       chrome.extension.sendMessage word: 'log', data: initialTab
