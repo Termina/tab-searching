@@ -13,6 +13,12 @@ Search Tab: Searching Chrome Tabs
 
 While searching, press Enter, Esc, Left, Up, Down for different actions.
 
+### Compatibility
+
+This extension requires Ractive `0.3.8`, read here:
+
+https://github.com/Rich-Harris/Ractive/issues/225#issuecomment-27338342
+
 ### Icon
 
 https://www.iconfinder.com/icons/103703/search_icon#size=128

@@ -113,9 +113,9 @@ define (require, exports) ->
       if currentAt >= list.length > 0
         currentAt -= 1
       page_list.set "currentAt", currentAt
-      chrome.tabs.remove the_tab.id
-      all_tabs = all_tabs.filter (tab) ->
-        tab.id isnt the_tab.id
+      chrome.tabs.remove the_tab.id, ->
+        curr_tab = page_list.data.list[currentAt]
+        gotoTab curr_tab.id if curr_tab?
 
     else if event.keyCode is 27 # esc key
       chrome.extension.sendMessage word: 'log', data: initialTab
