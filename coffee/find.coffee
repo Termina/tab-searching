@@ -9,11 +9,10 @@ define (require, exports) ->
   listTmpl = c2m.render cirru.parse listTmplText
   # helpers
 
-  isKeyword = (char) -> char.match(/[\w\d\s\u4E00-\u9FA5]/)?
-
-  fuzzy = (text) ->
-    query = text.split('').filter(isKeyword).join('.*')
-    new RegExp query, 'i'
+  detect_match = (data, piece) ->
+    words = piece.split(" ")
+    words.every (word) ->
+      (data.indexOf word) >= 0
 
   q = (query) -> document.querySelector query
 
@@ -50,14 +49,11 @@ define (require, exports) ->
   menu = q('#menu')
 
   find_text = (tab, text) ->
-    if tab.title.indexOf(text) >= 0
-      yes
-    else if tab.url.indexOf(text) >= 0
-      yes
-    else if tab.title.match(fuzzy text)?
-      yes
-    else
-      no
+    text = text.toLowerCase()
+    switch
+      when (detect_match tab.title, text) then yes
+      when (detect_match tab.url, text) then yes
+      else no
 
   suggest = (text) ->
 

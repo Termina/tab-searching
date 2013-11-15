@@ -2,9 +2,19 @@
 Search Tab: Searching Chrome Tabs
 ------
 
+### WebStore
+
+[Install via Chrome Webstore](https://chrome.google.com/webstore/detail/search-tab-crx/mghfpkfegmeanpcabcmiipiknkegjnkd)
+
+### Searching
+
+Search by keywords, order is not required.
+
 ### Usage
 
 * `git clone` this repo and run `bower install`
+* clone Ractive and use `0.3.8` branch
+* run `node-dev dev.coffee` to compile CoffeeScript
 * Load the code in develop mode of Chrome.  
 * Got to bottom of [chrome://extensions/](chrome://extensions/) and set keyboard shortcuts.
 * Press your shortcuts

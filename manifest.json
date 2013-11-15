@@ -1,6 +1,6 @@
 {
   "name": "search-tab-crx",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "manifest_version": 2,
   "icons": {
     "48": "pic/search-48.png"
