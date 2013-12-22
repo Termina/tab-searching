@@ -1,16 +1,23 @@
 
-Search Tab: Searching Chrome Tabs
+Tab Searching for Chrome
 ------
 
-### WebStore
+### Usage for users
 
-[Install via Chrome Webstore](https://chrome.google.com/webstore/detail/search-tab-crx/mghfpkfegmeanpcabcmiipiknkegjnkd)
+![](https://developers.google.com/chrome/web-store/images/branding/ChromeWebStore_BadgeWBorder_v2_206x58.png)
 
-### Searching
+[Install "Tab Searching" via Chrome Webstore](https://chrome.google.com/webstore/detail/search-tab-crx/mghfpkfegmeanpcabcmiipiknkegjnkd)
 
-Search by keywords, order is not required.
+And some configs to start with:
 
-### Usage
+![](http://img5.tuchuang.org/uploads/2013/12/open-key.png)
+![](http://img5.tuchuang.org/uploads/2013/12/shortcuts.png)
+![](http://img5.tuchuang.org/uploads/2013/12/badge.png)
+![](http://img4.tuchuang.org/uploads/2013/12/search.png)
+
+Keywords are for both urls and titles.
+
+### Usage for a developer
 
 * `git clone` this repo and run `bower install`
 * clone Ractive and use `0.3.8` branch
@@ -23,11 +30,11 @@ Search by keywords, order is not required.
 
 While searching, press Enter, Esc, Left, Up, Down for different actions.
 
-### Compatibility
+### Techniques
 
-This extension requires Ractive `0.3.8`, read here:
-
-https://github.com/Rich-Harris/Ractive/issues/225#issuecomment-27338342
+* http://ractivejs.org/
+* http://requirejs.org
+* http://cirru.org
 
 ### Icon
 
