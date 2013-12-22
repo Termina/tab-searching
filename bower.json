@@ -17,8 +17,8 @@
   "dependencies": {
     "requirejs": "~2.1.9",
     "ractive": "~0.3.8",
-    "cirru-parser": "*",
-    "cirru-to-mustache": "~0.0.2",
-    "requirejs-text": "~2.0.10"
+    "cirru-parser": "~0.5.6",
+    "requirejs-text": "~2.0.10",
+    "cirru-mustache": "~0.0.6"
   }
 }
