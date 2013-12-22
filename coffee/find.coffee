@@ -27,14 +27,14 @@ define (require, exports) ->
       highlightSelected: (selected) ->
         if selected then "selected" else ""
       highlightCurrentAt: (currentAt, num) ->
-        console.log "currentAt: #{currentAt}, num: #{num}"
+        # console.log "currentAt: #{currentAt}, num: #{num}"
         if currentAt is num then "currentAt" else ""
 
   # cache
 
   chrome.tabs.query active: yes, (tabs) ->
     window.initialTab = tabs[0]
-    
+
   # setup close event
 
   window.onbeforeunload = ->
@@ -48,8 +48,10 @@ define (require, exports) ->
 
   find_text = (tab, text) ->
     text = text.toLowerCase()
+    title = tab.title.toLowerCase()
+    # console.log 'find in title:', tab.title, '::add::', text
     switch
-      when (detect_match tab.title, text) then yes
+      when (detect_match title, text) then yes
       when (detect_match tab.url, text) then yes
       else no
 
@@ -118,7 +120,7 @@ define (require, exports) ->
           window.close()
 
   gotoTab = (tabid, callback) ->
-    console.log "going to", tabid
+    # console.log "going to", tabid
     chrome.tabs.update tabid, selected: yes, ->
       callback?()
     q('.currentAt')?.scrollIntoViewIfNeeded?()
@@ -133,5 +135,5 @@ define (require, exports) ->
 
   input.focus()
   window.onblur = ->
-    # window.close()
+    window.close()
   suggest ''
