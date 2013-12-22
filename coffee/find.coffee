@@ -32,11 +32,9 @@ define (require, exports) ->
 
   # cache
 
-  initialTab = undefined
-  chrome.extension.onMessage.addListener (request) ->
-    console.log "got extension request", request
-    if request.type is "initial"
-      initialTab = request.tab
+  chrome.tabs.query active: yes, (tabs) ->
+    window.initialTab = tabs[0]
+    
   # setup close event
 
   window.onbeforeunload = ->
