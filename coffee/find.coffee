@@ -1,139 +1,109 @@
 
-define (require, exports) ->
-  Ractive = require "Ractive"
-  cirru = require "cirru"
-  c2m = require "c2m"
+Vue = require 'vue'
 
-  listTmplText = require "text!cirru_list"
-  cirru.parse.compact = yes
-  listTmpl = c2m.render cirru.parse listTmplText
-  # helpers
+# helper
 
-  detect_match = (data, piece) ->
-    words = piece.split(" ")
-    words.every (word) ->
-      (data.indexOf word) >= 0
+detect_match = (data, piece) ->
+  words = piece.split(" ")
+  words.every (word) ->
+    (data.indexOf word) >= 0
 
-  q = (query) -> document.querySelector query
+q = (query) -> document.querySelector query
 
-  # ractive part
+find_text = (tab, text) ->
+  text = text.toLowerCase()
+  title = tab.title.toLowerCase()
+  # console.log 'find in title:', tab.title, '::add::', text
+  switch
+    when (detect_match title, text) then yes
+    when (detect_match tab.url, text) then yes
+    else no
 
-  window.page_list = new Ractive
-    el: q('#menu')
-    template: listTmpl
-    data:
-      currentAt: 0
-      list: []
-      highlightSelected: (selected) ->
-        if selected then "selected" else ""
-      highlightCurrentAt: (currentAt, num) ->
-        # console.log "currentAt: #{currentAt}, num: #{num}"
-        if currentAt is num then "currentAt" else ""
+gotoTab = (tabid, callback) ->
+  # console.log "going to", tabid
+  chrome.tabs.update tabid, selected: yes, ->
+    callback?()
+  q('.currentAt')?.scrollIntoViewIfNeeded?()
 
-  # cache
+# ractive part
 
-  chrome.tabs.query active: yes, (tabs) ->
-    window.initialTab = tabs[0]
+vm = new Vue
+  el: '#app'
+  data:
+    at: 0
+    query: ''
+  computed:
+    list: ->
+      console.log 'change list'
+      @suggest @query
+  methods:
+    select: (index) ->
+      gotoTab @list[index].id
+    classActive: (selected) ->
+      if selected then "selected" else ""
+    classAt: (index) ->
+      # console.log "currentAt: #{currentAt}, num: #{num}"
+      if @at is index then "focus-at" else ""
 
-  # setup close event
+    confirmTab: ->
+      console.log 'confirmTab'
 
-  window.onbeforeunload = ->
-    chrome.extension.sendMessage word: 'close', (res) ->
-      console.log 'after close', res
-
-  # main function
-
-  input = q('#key')
-  menu = q('#menu')
-
-  find_text = (tab, text) ->
-    text = text.toLowerCase()
-    title = tab.title.toLowerCase()
-    # console.log 'find in title:', tab.title, '::add::', text
-    switch
-      when (detect_match title, text) then yes
-      when (detect_match tab.url, text) then yes
-      else no
-
-  suggest = (text) ->
-
-    chrome.tabs.query {}, (tabs) ->
-      list = []
-      tabs.map (tab) ->
-        if find_text tab, text
-          if initialTab.id is tab.id
-            list.unshift tab
-          else if tab.title isnt 'Search Tabs'
-            list.push tab
-      page_list.set "list", list
-
-      page_list.set "list", list
-      gotoTab list[0].id if list[0]?
-      page_list.set "currentAt", 0
-
-  input.addEventListener 'input', -> 
-    suggest input.value
-
-  document.body.onkeydown = (event) ->
-    if event.keyCode is 13
-      window.close()
-
-    else if event.keyCode is 40 # down arrow
-      event.preventDefault()
-      currentAt = page_list.data.currentAt
-      length = page_list.data.list.length
-      if (currentAt + 1) < length
-        currentAt += 1
-      page_list.set "currentAt", currentAt
-      context = page_list.data.list[currentAt]
+    upTab: ->
+      if (@at + 1) < @list.length
+        @at += 1
+      context = @list[@at]
       gotoTab context.id
 
-    else if event.keyCode is 38 # up arrow
-      event.preventDefault()
-      currentAt = page_list.data.currentAt
-      if currentAt > 0
-        currentAt -= 1
-      page_list.set "currentAt", currentAt
-      context = page_list.data.list[currentAt]
+    downTab: ->    
+      if @at > 0
+        @at -= 1
+      context = @list[@at]
       gotoTab context.id
 
-    else if event.keyCode is 39 # right
-      console.log "right"
+    keyAction: (event) ->
+      switch event.keyCode
+        when 40 then @downTab.bind(@)()
+        when 38 then @upTab.bind(@)()
+        when 37 then @removeTab.bind(@)()
+        when 27 then @cancelTab.bind(@)()
+        when 13 then @confirmTab.bind(@)()
 
-    else if event.keyCode is 37 # left
-      event.preventDefault()
-      currentAt = page_list.data.currentAt
-      list = page_list.data.list
-      the_tab = list[currentAt]
-      list.splice currentAt, 1
-      if currentAt >= list.length > 0
-        currentAt -= 1
-      page_list.set "currentAt", currentAt
-      chrome.tabs.remove the_tab.id, ->
-        curr_tab = page_list.data.list[currentAt]
+    removeTab: ->
+      @list.splice @at, 1
+      if @at >= @list.length > 0
+        @at -= 1
+      chrome.tabs.remove @list[@at].id, =>
+        curr_tab = @list[@at]
         gotoTab curr_tab.id if curr_tab?
 
-    else if event.keyCode is 27 # esc key
+    cancelTab: ->
       chrome.extension.sendMessage word: 'log', data: initialTab
       if initialTab?
         gotoTab initialTab.id, ->
           window.close()
 
-  gotoTab = (tabid, callback) ->
-    # console.log "going to", tabid
-    chrome.tabs.update tabid, selected: yes, ->
-      callback?()
-    q('.currentAt')?.scrollIntoViewIfNeeded?()
+    suggest: ->
+      list = []
+      chrome.tabs.query windowType: 'normal', (tabs) =>
+        tabs.forEach (tab) =>
+          if find_text tab, @query
+            if initialTab.id is tab.id
+              list.unshift tab
+            else if tab.title isnt 'Search Tabs'
+              list.push tab
+        gotoTab list[0].id if list[0]?
+      list
 
-  # handle events
+# cache
 
-  page_list.on "select", (event) ->
-    gotoTab event.context.id, ->
-      window.close()
+chrome.tabs.query active: yes, (tabs) ->
+  window.initialTab = tabs[0]
 
-  # init main function
+# setup close event
 
-  input.focus()
-  window.onblur = ->
-    window.close()
-  suggest ''
+window.onbeforeunload = ->
+  chrome.extension.sendMessage word: 'close', (res) ->
+    console.log 'after close', res
+
+window.onblur = ->
+  # window.close()
