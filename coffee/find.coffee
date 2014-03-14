@@ -65,6 +65,7 @@ initVM = -> new Vue
             @at += 1
           context = @list[@at]
           gotoTab context.id
+          event.preventDefault()
 
         when 38 # up
           if @at > 0

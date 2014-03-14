@@ -1,7 +1,7 @@
 
 #app
   input#key
-    :placeholder "Search in urls..."
+    :placeholder "Search in titles and urls..."
     :autocomplete off
     :v-model query
     :v-on "keydown: keyAction"
