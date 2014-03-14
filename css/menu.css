@@ -22,6 +22,7 @@ body {
     width: 100%;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 #app * {
   font-family: 'MF YueYuan (Noncommercial)', Optima, 'Hiragino Sans GB';
@@ -33,10 +34,10 @@ body {
   outline: none;
   line-height: 20px;
   box-shadow: 0px 0px 8px #ccc;
-  padding: 4px 6px;
   font-size: 14px;
   top: 0px;
   z-index: 100;
+  padding-left: 10px;
 }
 #menu {
   width: 100%;
@@ -46,7 +47,6 @@ body {
   flex: 1;
 }
 #menu .tab {
-  padding: 10px;
   position: relative;
   color: #000000;
   -webkit-transform-origin: left center;
@@ -56,9 +56,14 @@ body {
   background-color: rgb(255, 255, 255);
   box-shadow: 0 0 1px rgb(172, 164, 164);
   cursor: pointer;
+  padding: 0px 10px;
+  display: flex;
+  flex-direction: column;
+  height: 50px;
+  justify-content: space-around;
 }
-#menu .tab.selected {
-    border-left: 12px solid rgb(185, 252, 169);
+#menu .tab.selected .url {
+    color: blue;
 }
 #menu .tab.focus-at {
     border-left: 12px solid rgb(156, 110, 255);
@@ -69,23 +74,19 @@ body {
   position: absolute;
   max-width: 16px;
 }
-#menu .tab .content {
-  overflow: hidden;
-  font-family: Ubuntu;
-  width: 340px;
-}
-#menu .tab .content>div {
+#menu .tab>div {
   text-overflow: ellipsis;
   overflow: hidden;
 }
 #menu .tab:hover {
     background: rgb(245, 245, 245);
 }
-#menu .tab .content .title {
+#menu .tab .title {
   height: 20px;
+  font-size: 16px;
 }
-#menu .tab .content .url {
-  font-size: 10px;
+#menu .tab .url {
+  font-size: 12px;
   color: #cfcffc;
   height: 16px;
 }

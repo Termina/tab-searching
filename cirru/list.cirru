@@ -1,7 +1,7 @@
 
 #app
   input#key
-    :placeholder "Type to search..."
+    :placeholder "Search in urls..."
     :autocomplete off
     :v-model query
     :v-on "keydown: keyAction"
@@ -12,10 +12,9 @@
       :v-on "click: select($index)"
       :class "{{classActive(selected)}}"
       :class "{{classAt($index)}}"
-      .content
-        .title
-          :v-model title
-        .url
-          :v-model url
+      .title
+        :v-model title
+      .url
+        :v-model url
       img.icon
         :src {{favIconUrl}}

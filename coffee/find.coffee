@@ -23,7 +23,8 @@ gotoTab = (tabid, callback) ->
   # console.log "going to", tabid
   chrome.tabs.update tabid, selected: yes, ->
     callback?()
-  q('.currentAt')?.scrollIntoViewIfNeeded?()
+  setTimeout ->
+    q('.focus-at')?.scrollIntoViewIfNeeded()
 
 suggest = (query) ->
   list = []
@@ -63,7 +64,6 @@ initVM = -> new Vue
           if (@at + 1) < @list.length
             @at += 1
           context = @list[@at]
-          console.log @list, @at, @
           gotoTab context.id
 
         when 38 # up
@@ -73,12 +73,12 @@ initVM = -> new Vue
           gotoTab context.id
         
         when 37 # left
+          return if @list.length is 0
+          oldTab = @list[@at]
           @list.splice @at, 1
-          if @at >= @list.length > 0
-            @at -= 1
-          chrome.tabs.remove @list[@at].id, =>
-            curr_tab = @list[@at]
-            gotoTab curr_tab.id if curr_tab?
+          if @at > 0 then @at -= 1
+          gotoTab @list[@at].id if @list[@at]
+          chrome.tabs.remove oldTab.id, ->
 
         when 27 # esc
           chrome.extension.sendMessage word: 'log', data: initialTab
@@ -100,6 +100,9 @@ chrome.tabs.query windowType: 'normal', (tabs) ->
 
   vm.$watch 'query', (query) ->
     vm.$data.list = suggest query
+    vm.$data.at = 0
+  
+  setTimeout -> vm.$data.query = ''
 
 # setup close event
 
