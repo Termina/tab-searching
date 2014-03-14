@@ -1,6 +1,5 @@
 * {
   box-sizing: border-box;
-  font-family: 'Lucida Grande';
 }
 ::-webkit-scrollbar {
   width: 6px;
@@ -17,49 +16,58 @@
 body {
   margin: 0px;
 }
+#app {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+#app * {
+  font-family: 'MF YueYuan (Noncommercial)', Optima, 'Hiragino Sans GB';
+}
 #key {
   width: 100%;
-  height: 30px;
+  height: 50px;
   border: none;
   outline: none;
   line-height: 20px;
   box-shadow: 0px 0px 8px #ccc;
   padding: 4px 6px;
-  font-family: 'Lucida Grande', 'Ubuntu Mono';
   font-size: 14px;
-  position: fixed;
   top: 0px;
   z-index: 100;
 }
 #menu {
   width: 100%;
   height: 570px;
-  /* overflow-y: scroll; */
-  padding: 80px 0px 200px 0px;
+  overflow-y: scroll;
+  padding-bottom: 100%;
+  flex: 1;
 }
 #menu .tab {
-  padding: 10px 8px;
+  padding: 10px;
   position: relative;
-  color: #808080;
+  color: #000000;
   -webkit-transform-origin: left center;
   -webkit-transform: scale(1);
   -webkit-transition-duration: 0.06s;
   margin: 0;
   background-color: rgb(255, 255, 255);
-  box-shadow: 0 0 6px rgb(172, 164, 164);
+  box-shadow: 0 0 1px rgb(172, 164, 164);
   cursor: pointer;
 }
 #menu .tab.selected {
-    border-left: 8px solid rgb(204, 202, 214);
+    border-left: 12px solid rgb(185, 252, 169);
 }
-#menu .tab.currentAt {
-    border-left: 8px solid rgb(224, 194, 115);
+#menu .tab.focus-at {
+    border-left: 12px solid rgb(156, 110, 255);
 }
 #menu .tab .icon {
-  top: 4px;
-  right: 4px;
+  top: 10px;
+  right: 8px;
   position: absolute;
-  max-width: 40px;
+  max-width: 16px;
 }
 #menu .tab .content {
   overflow: hidden;
@@ -71,7 +79,7 @@ body {
   overflow: hidden;
 }
 #menu .tab:hover {
-    background: rgb(230, 213, 255);
+    background: rgb(245, 245, 245);
 }
 #menu .tab .content .title {
   height: 20px;

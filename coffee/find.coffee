@@ -25,17 +25,29 @@ gotoTab = (tabid, callback) ->
     callback?()
   q('.currentAt')?.scrollIntoViewIfNeeded?()
 
-# ractive part
+suggest = (query) ->
+  list = []
+  allTabs.forEach (tab) =>
+    if find_text tab, query
+      if initialTab.id is tab.id
+        list.unshift tab
+      else if tab.title isnt 'Search Tabs'
+        list.push tab
+  gotoTab list[0].id if list[0]?
+  list
 
-vm = new Vue
+# Vue part
+
+Vue.directive 'autofocus',
+  bind: ->
+    @el.focus()
+
+initVM = -> new Vue
   el: '#app'
   data:
     at: 0
     query: ''
-  computed:
-    list: ->
-      console.log 'change list'
-      @suggest @query
+    list: []
   methods:
     select: (index) ->
       gotoTab @list[index].id
@@ -45,59 +57,49 @@ vm = new Vue
       # console.log "currentAt: #{currentAt}, num: #{num}"
       if @at is index then "focus-at" else ""
 
-    confirmTab: ->
-      console.log 'confirmTab'
-
-    upTab: ->
-      if (@at + 1) < @list.length
-        @at += 1
-      context = @list[@at]
-      gotoTab context.id
-
-    downTab: ->    
-      if @at > 0
-        @at -= 1
-      context = @list[@at]
-      gotoTab context.id
-
     keyAction: (event) ->
       switch event.keyCode
-        when 40 then @downTab.bind(@)()
-        when 38 then @upTab.bind(@)()
-        when 37 then @removeTab.bind(@)()
-        when 27 then @cancelTab.bind(@)()
-        when 13 then @confirmTab.bind(@)()
+        when 40 # down
+          if (@at + 1) < @list.length
+            @at += 1
+          context = @list[@at]
+          console.log @list, @at, @
+          gotoTab context.id
 
-    removeTab: ->
-      @list.splice @at, 1
-      if @at >= @list.length > 0
-        @at -= 1
-      chrome.tabs.remove @list[@at].id, =>
-        curr_tab = @list[@at]
-        gotoTab curr_tab.id if curr_tab?
+        when 38 # up
+          if @at > 0
+            @at -= 1
+          context = @list[@at]
+          gotoTab context.id
+        
+        when 37 # left
+          @list.splice @at, 1
+          if @at >= @list.length > 0
+            @at -= 1
+          chrome.tabs.remove @list[@at].id, =>
+            curr_tab = @list[@at]
+            gotoTab curr_tab.id if curr_tab?
 
-    cancelTab: ->
-      chrome.extension.sendMessage word: 'log', data: initialTab
-      if initialTab?
-        gotoTab initialTab.id, ->
+        when 27 # esc
+          chrome.extension.sendMessage word: 'log', data: initialTab
+          if initialTab?
+            gotoTab initialTab.id, ->
+              window.close()
+
+        when 13 # enter
           window.close()
-
-    suggest: ->
-      list = []
-      chrome.tabs.query windowType: 'normal', (tabs) =>
-        tabs.forEach (tab) =>
-          if find_text tab, @query
-            if initialTab.id is tab.id
-              list.unshift tab
-            else if tab.title isnt 'Search Tabs'
-              list.push tab
-        gotoTab list[0].id if list[0]?
-      list
 
 # cache
 
 chrome.tabs.query active: yes, (tabs) ->
   window.initialTab = tabs[0]
+
+chrome.tabs.query windowType: 'normal', (tabs) ->
+  window.allTabs = tabs
+  vm = initVM()
+
+  vm.$watch 'query', (query) ->
+    vm.$data.list = suggest query
 
 # setup close event
 

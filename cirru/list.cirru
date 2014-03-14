@@ -5,6 +5,7 @@
     :autocomplete off
     :v-model query
     :v-on "keydown: keyAction"
+    :v-autofocus
   #menu
     .tab
       :v-repeat list
