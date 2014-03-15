@@ -59,21 +59,25 @@ initVM = -> new Vue
       if @at is index then "focus-at" else ""
 
     keyAction: (event) ->
+      console.log event.keyCode
       switch event.keyCode
         when 40 # down
+          event.preventDefault()
           if (@at + 1) < @list.length
             @at += 1
           context = @list[@at]
           gotoTab context.id
-          event.preventDefault()
 
         when 38 # up
+          event.preventDefault()
           if @at > 0
             @at -= 1
           context = @list[@at]
           gotoTab context.id
         
-        when 37 # left
+        when 8 # delete
+          return unless event.shiftKey
+          event.preventDefault()
           return if @list.length is 0
           oldTab = @list[@at]
           @list.splice @at, 1
