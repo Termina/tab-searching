@@ -52,6 +52,7 @@ initVM = -> new Vue
   methods:
     select: (index) ->
       gotoTab @list[index].id
+      window.close()
     classActive: (selected) ->
       if selected then "selected" else ""
     classAt: (index) ->
@@ -116,4 +117,4 @@ window.onbeforeunload = ->
     console.log 'after close', res
 
 window.onblur = ->
-  # window.close()
+  window.close()
