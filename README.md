@@ -19,26 +19,33 @@ Keywords are for both urls and titles.
 
 ### Usage for a developer
 
-* `git clone` this repo and run `bower install`
-* clone Ractive and use `0.3.8` branch
-* run `node-dev dev.coffee` to compile CoffeeScript
+* run commands to fetch and build files
+
+```
+git clone git@github.com:jiyinyiyong/tab-searching.git
+npm install
+npm install -g coffee-script shelljs
+coffee make.coffee build
+```
+
 * Load the code in develop mode of Chrome.  
 * Got to bottom of [chrome://extensions/](chrome://extensions/) and set keyboard shortcuts.
-* Press your shortcuts
+* Press your shortcuts or click the icon
 
-`Command+Period` is suggested for `mac`, `Alt+Perriod` for default..
+### Shortcuts
 
-While searching, press Enter, Esc, Left, Up, Down for different actions.
+`Command+Period` is suggested for `mac`, `Alt+Perriod` for Windows and Linux.
+
+* Enter: choose this tab
+* Up: go to the tab above
+* Down: go to the tab below
+* Shift+Delete: remove this tab
 
 ### Techniques
 
-* http://ractivejs.org/
-* http://requirejs.org
+* http://vuejs.org
+* http://shelljs.org
 * http://cirru.org
-
-### Icon
-
-https://www.iconfinder.com/icons/103703/search_icon#size=128
 
 ### License
 

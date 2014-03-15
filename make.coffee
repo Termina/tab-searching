@@ -20,3 +20,8 @@ target.watch = ->
 target.browserify = ->
   exec 'browserify -o build/build.js -d js/find.js', ->
     console.log 'browserified'
+
+target.build = ->
+  target.html()
+  exec 'coffee -o js/ -bc coffee/', ->
+    exec 'browserify -o build/build.js -d js/find.js'

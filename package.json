@@ -21,7 +21,7 @@
     "chrome"
   ],
   "author": "jiyinyiyong",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/jiyinyiyong/tab-searching/issues"
   },
