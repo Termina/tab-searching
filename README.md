@@ -16,7 +16,7 @@ http://googlesystem.blogspot.com/2012/08/create-keyboard-shortcuts-for-chrome.ht
 
 Icon of Tab Searching is:
 
-![](http://img4.picbed.org/uploads/2014/03/tab-searching.png)
+![](http://img1.tuchuang.org/uploads/2014/03/tab-searching(1).png)
 
 ### Usage for a developer
 
