@@ -6,16 +6,17 @@ Tab Searching for Chrome
 
 ![](https://developers.google.com/chrome/web-store/images/branding/ChromeWebStore_BadgeWBorder_v2_206x58.png)
 
-[Install "Tab Searching" via Chrome Webstore](https://chrome.google.com/webstore/detail/search-tab-crx/mghfpkfegmeanpcabcmiipiknkegjnkd)
+![](http://img4.picbed.org/uploads/2014/03/tab-searching.png)
 
-And some configs to start with:
+Keywords are searched in both urls and titles.
 
-![](http://img5.tuchuang.org/uploads/2013/12/open-key.png)
-![](http://img5.tuchuang.org/uploads/2013/12/shortcuts.png)
-![](http://img5.tuchuang.org/uploads/2013/12/badge.png)
-![](http://img4.tuchuang.org/uploads/2013/12/search.png)
+You may need to add launching shortcut by following this guide:
 
-Keywords are for both urls and titles.
+http://googlesystem.blogspot.com/2012/08/create-keyboard-shortcuts-for-chrome.html
+
+Icon of Tab Searching is:
+
+![](http://img4.picbed.org/uploads/2014/03/tab-searching.png)
 
 ### Usage for a developer
 
