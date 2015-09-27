@@ -42,9 +42,8 @@ gulp.task :html $ \ (cb)
     fs $ require :fs
     assets
   if (not env.dev) $ do
-    = assets $ require :./build/assets.json
-    = env.main $ + :./build/ $ . assets.main 0
-    = env.style $ + :./build/ $ . assets.main 1
+    = assets $ require :./extension/build/assets.json
+    = env.main $ + :./build/ assets.main
     = env.vendor $ + :./build/ assets.vendor
   fs.writeFile :extension/index.html (html env) cb
 

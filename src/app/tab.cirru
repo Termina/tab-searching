@@ -32,6 +32,7 @@ var
         :transitionDuration ":300ms"
         :width ":100%"
         :cursor :pointer
+        :backgroundColor $ ... (Color) (hsl 0 100 100 0.8) (hslString)
       merge $ cond @props.isMatch
         Immutable.fromJS $ {}
           :top $ * @props.index 55
@@ -41,7 +42,7 @@ var
           :opacity 0
       merge $ cond @props.isInitial
         Immutable.fromJS $ {}
-          :backgroundColor $ ... (Color) (hsl 240 80 90 0.4) (hslString)
+          :backgroundColor $ ... (Color) (hsl 240 80 95 0.8) (hslString)
         Immutable.fromJS $ {}
       merge $ cond @props.isPointed
         Immutable.fromJS $ {}

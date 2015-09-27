@@ -11,14 +11,10 @@ var
     stir.doctype
     html null
       head null
-        title null :Workflow
+        title null ":Tab Searching"
         meta $ {} (:charset :utf-8)
         link $ {} (:rel :icon)
-          :href :http://logo.cirru.org/cirru-32x32.png
-        cond (not data.dev)
-          link $ {} (:rel :stylesheet)
-            :href data.style
-          , undefined
+          :href :pic/tab-searching.png
         script $ {} (:src data.vendor) (:defer true)
         script $ {} (:src data.main) (:defer true)
         style null ":body * {box-sizing: border-box;}"

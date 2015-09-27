@@ -23,6 +23,7 @@ var
     :loaders $ array
       {} (:test /\.cirru$) (:loader :react-hot!cirru-script) (:ignore /node_modules)
       {} (:test "/\.(png|jpg|gif)$") (:loader :url-loader)
+        :query $ {} (:limit 100) (:name :[name].[ext])
       {} (:test /\.css$) $ :loader :style!css!autoprefixer
       {} (:test /\.json$) $ :loader :json
 

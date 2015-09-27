@@ -10,6 +10,9 @@ var
   actions $ require :../actions
 
 var
+  bg $ require :../../images/abstract_lines_by_amst3l-d4tv0yw.png
+
+var
   Tab $ React.createFactory $ require :./tab
 
 var
@@ -113,9 +116,12 @@ var listHelper $ \ (result tabs query initial pointer onClick index count)
     return undefined
 
   :onChange $ \ (event)
-    @setState $ {}
-      :query event.target.value
-      :pointer 0
+    @setState
+      {}
+        :query event.target.value
+        :pointer 0
+      \\ ()
+        @switchTab 0
 
   :onTabClick $ \ (tab index)
     @setState $ {}
@@ -137,11 +143,20 @@ var listHelper $ \ (result tabs query initial pointer onClick index count)
     {}
       :display :flex
       :flexDirection :column
+      :backgroundImage $ + ":url(" bg ":)"
+      :backgroundSize :contain
+      :backgroundRepeat :no-repeat
+      :backgroundPosition ":center center"
+      :position :absolute
+      :height :100%
+      :width :100%
 
   :styleList $ \ ()
     {}
       :position :relative
       :height $ * @props.tabs.size 55
+      :flex 1
+      :overflow :auto
 
   :render $ \ ()
     div ({} (:style $ @styleRoot))

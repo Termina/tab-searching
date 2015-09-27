@@ -18,20 +18,9 @@ Icon of Tab Searching is:
 
 ![](http://img1.tuchuang.org/uploads/2014/03/tab-searching(1).png)
 
-### Usage for a developer
+### Resource
 
-* run commands to fetch and build files
-
-```
-git clone git@github.com:jiyinyiyong/tab-searching.git
-npm install
-npm install -g coffee-script shelljs
-coffee make.coffee build
-```
-
-* Load the code in develop mode of Chrome.  
-* Got to bottom of [chrome://extensions/](chrome://extensions/) and set keyboard shortcuts.
-* Press your shortcuts or click the icon
+Background from http://amst3l.deviantart.com/art/abstract-lines-292021160
 
 ### Shortcuts
 

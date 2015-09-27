@@ -11,15 +11,16 @@ var
     :vendor $ array :react :immutable
 
   :output $ object
-    :path :build/
+    :path :extension/build/
     :filename :[name].[chunkhash:8].js
-    :publicPath :./build/
+    :publicPath :build/
 
   :resolve config.resolve
   :module $ {}
     :loaders $ []
       {} (:test /\.cirru$) (:loader :cirru-script) (:ignore /node_modules)
       {} (:test "/\.(png|jpg)$") (:loader :url-loader)
+        :query $ {} (:limit 100) (:name :[name].[ext])
       {} (:test /\.css$) $ :loader
         ExtractTextPlugin.extract :style-loader :css!autoprefixer
       {} (:test /\.json$) $ :loader :json
@@ -33,4 +34,4 @@ var
         var
           json $ stats.toJson
           content $ JSON.stringify json.assetsByChunkName null 2
-        return $ fs.writeFileSync :build/assets.json content
+        return $ fs.writeFileSync :extension/build/assets.json content
