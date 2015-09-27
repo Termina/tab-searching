@@ -15,27 +15,39 @@ var
     :onClick React.PropTypes.func.isRequired
     :index React.PropTypes.number.isRequired
     :isMatch React.PropTypes.bool.isRequired
+    :isInitial React.PropTypes.bool.isRequired
+    :isPointed React.PropTypes.bool.isRequired
+
+  :onClick $ \ ()
+    @props.onClick @props.tab @props.index
 
   :styleRoot $ \ ()
-    cond @props.isMatch
-      {}
+    ...
+      Immutable.fromJS $ {}
         :padding 10
         :display :flex
         :flexDirection :row
-        :top $ * @props.index 55
         :position :absolute
-        :transitionProperty ":top, opacity"
+        :transitionProperty ":top, opacity, font-size"
         :transitionDuration ":300ms"
-        :opacity 1
-      {}
-        :padding 10
-        :display :flex
-        :flexDirection :row
-        :top $ * @props.index 55
-        :position :absolute
-        :transitionProperty ":top, opacity"
-        :transitionDuration ":300ms"
-        :opacity 0
+        :width ":100%"
+        :cursor :pointer
+      merge $ cond @props.isMatch
+        Immutable.fromJS $ {}
+          :top $ * @props.index 55
+          :opacity 1
+        Immutable.fromJS $ {}
+          :top 0
+          :opacity 0
+      merge $ cond @props.isInitial
+        Immutable.fromJS $ {}
+          :backgroundColor $ ... (Color) (hsl 240 80 90 0.4) (hslString)
+        Immutable.fromJS $ {}
+      merge $ cond @props.isPointed
+        Immutable.fromJS $ {}
+          :fontWeight :bold
+        Immutable.fromJS $ {}
+      toJS
 
   :styleText $ \ ()
     {}
@@ -68,7 +80,7 @@ var
       :marginRight 10
 
   :render $ \ ()
-    div ({} (:style $ @styleRoot))
+    div ({} (:style $ @styleRoot) (:onClick @onClick))
       div ({} (:style $ @styleIcon))
       div ({} (:style $ @styleText))
         div ({} (:style $ @styleTitle))

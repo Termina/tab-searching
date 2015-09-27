@@ -2,6 +2,7 @@
 var
   Color $ require :color
   React $ require :react
+  keycode $ require :keycode
   Immutable $ require :immutable
 
 var
@@ -21,7 +22,7 @@ var filterTab $ \ (tab query)
       search.find (... tab (get :url) (toLowerCase)) (query.toLowerCase)
     , true
 
-var listHelper $ \ (result tabs query onClick index count)
+var listHelper $ \ (result tabs query initial pointer onClick index count)
   cond (is tabs.size 0) result
     listHelper
       result.push
@@ -30,12 +31,16 @@ var listHelper $ \ (result tabs query onClick index count)
             :key $ ... tabs (first) (get :id)
             :index count
             :isMatch true
+            :isInitial $ is (... tabs (first) (get :id)) initial
+            :isPointed $ is count pointer
           Tab $ {} (:tab (tabs.first)) (:onClick onClick)
             :key $ ... tabs (first) (get :id)
             :index count
             :isMatch false
+            :isInitial $ is (... tabs (first) (get :id)) initial
+            :isPointed $ is count pointer
       tabs.slice 1
-      , query onClick
+      , query initial pointer onClick
       + index 1
       cond
         filterTab (tabs.first) query
@@ -54,12 +59,68 @@ var listHelper $ \ (result tabs query onClick index count)
       :pointer 0
       :query :
 
+  :componentDidMount $ \ ()
+    window.addEventListener :keydown @onWindowKeydown
+    ... @refs.input (getDOMNode) (focus)
+
+  :componentDidWillUnmount $ \ ()
+    window.removeEventListener :keydown @onWindowKeydown
+
+  :moveUp $ \ (event)
+    event.preventDefault
+    var newPointer $ - @state.pointer 1
+    if (> @state.pointer 0) $ do
+      @setState $ {}
+        :pointer newPointer
+      @switchTab newPointer
+    , undefined
+
+  :moveDown $ \ (event)
+    event.preventDefault
+    var limit $ ... @props.tabs
+      filter $ \\ (tab)
+        filterTab tab @state.query
+      count
+    var newPointer $ + @state.pointer 1
+    if (< @state.pointer (- limit 1)) $ do
+      @setState $ {}
+        :pointer newPointer
+      @switchTab newPointer
+    , undefined
+
+  :switchTab $ \ (pointer)
+    console.log pointer
+    var results $ @props.tabs.filter $ \\ (tab)
+      filterTab tab @state.query
+    var target $ results.get pointer
+    if (? target) $ do
+      actions.selectTab (target.get :id) $ \ ()
+    , undefined
+
+  :doEnter $ \ ()
+    window.close
+
+  :doEsc $ \ ()
+    actions.selectTab @props.initial $ \ ()
+      window.close
+
+  :onWindowKeydown $ \ (event)
+    switch (keycode event.keyCode)
+      :up $ @moveUp event
+      :down $ @moveDown event
+      :enter $ @doEnter
+      :esc $ @doEsc
+    return undefined
+
   :onChange $ \ (event)
     @setState $ {}
       :query event.target.value
+      :pointer 0
 
   :onTabClick $ \ (tab index)
-    console.log tab index
+    @setState $ {}
+      :pointer index
+    @switchTab index
 
   :styleInput $ \ ()
     {}
@@ -85,8 +146,10 @@ var listHelper $ \ (result tabs query onClick index count)
   :render $ \ ()
     div ({} (:style $ @styleRoot))
       input $ {}
+        :ref :input
         :value @props.query
         :onChange @onChange
         :style (@styleInput)
       div ({} (:style $ @styleList))
-        listHelper (Immutable.List) @props.tabs @state.query @onTabClick 0 0
+        listHelper (Immutable.List) @props.tabs @state.query @props.initial
+          , @state.pointer @onTabClick 0 0
