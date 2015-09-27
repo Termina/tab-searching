@@ -1,5 +1,8 @@
 
-node_modules/
-js/
-build/
-index.html
+/extension/build/
+/extension/lib/
+/extension/js/
+/extension/index.html
+/node_modules/
+/assets.json
+/index.html

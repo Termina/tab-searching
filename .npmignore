@@ -1,5 +1,5 @@
 
-cirru/
-coffee/
-js/find.js
-make.coffee
+/build
+/index.html
+/gulpfile.cirru
+/webpack.*
