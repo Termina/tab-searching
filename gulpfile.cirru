@@ -36,6 +36,15 @@ gulp.task :script $ \ ()
     pipe $ script
     pipe $ gulp.dest :extension/lib/
 
+gulp.task :coffee $ \ ()
+  var
+    coffee $ require :gulp-coffee
+
+  ... gulp
+    src :coffee/*.coffee
+    pipe $ coffee $ {} :bare true
+    pipe $ gulp.dest :extension/js/
+
 gulp.task :html $ \ (cb)
   var
     html $ require :./template

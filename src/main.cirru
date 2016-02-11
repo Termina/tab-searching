@@ -27,3 +27,6 @@ var render $ \ (store core)
 
 recorder.request render
 recorder.subscribe render
+
+= window.onblur $ \ ()
+  window.close
