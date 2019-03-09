@@ -1,0 +1,168 @@
+{
+ :sessions {}
+ :users {
+  "OzQOOvni3" {:id "OzQOOvni3", :name "chen", :nickname "chen", :password "d41d8cd98f00b204e9800998ecf8427e", :avatar nil}
+ }
+ :templates {
+  "7Ut3EjsPV" {
+   :id "7Ut3EjsPV", :name "container", :mock-pointer "mC_GvBP4_", :width 400, :height 400
+   :mocks {
+    "mC_GvBP4_" {
+     :id "mC_GvBP4_", :name "base"
+     :data {
+      :input "demo"
+      :records ["task 1111" "tasl 3333"]
+     }
+    }
+   }
+   :markup {
+    :id "system", :type :box, :layout nil
+    :props {}
+    :attrs {}
+    :presets #{}
+    :style {}
+    :children {
+     "T" {
+      :id "T", :type :template, :layout nil
+      :props {"name" "header", "data" "@:input"}
+      :attrs {}
+      :presets #{}
+      :style {}
+      :children {}
+     }
+     "j" {
+      :id "j", :type :divider, :layout nil
+      :props {}
+      :attrs {}
+      :presets #{}
+      :style {}
+      :children {}
+     }
+     "r" {
+      :id "r", :type :template, :layout nil
+      :props {"name" "records", "data" "@:records"}
+      :attrs {}
+      :presets #{}
+      :style {}
+      :children {}
+     }
+    }
+   }
+  }
+  "A5xqC-Dn9" {
+   :id "A5xqC-Dn9", :name "records", :mock-pointer "MXQufyomf", :width 400, :height 400
+   :mocks {
+    "MXQufyomf" {
+     :id "MXQufyomf", :name "base"
+     :data ["TASK 1" "TASK 2"]
+    }
+   }
+   :markup {
+    :id "system", :type :list, :layout :column
+    :props {"value" "@"}
+    :attrs {}
+    :presets #{}
+    :style {}
+    :children {
+     "T" {
+      :id "T", :type :template, :layout nil
+      :props {"name" "task", "data" "@:item"}
+      :attrs {}
+      :presets #{}
+      :style {}
+      :children {}
+     }
+    }
+   }
+  }
+  "PSNqgLI4M" {
+   :id "PSNqgLI4M", :name "header", :mock-pointer "g3M1KxNPb", :width 400, :height 100
+   :mocks {
+    "g3M1KxNPb" {
+     :id "g3M1KxNPb", :name "base"
+     :data {}
+    }
+   }
+   :markup {
+    :id "system", :type :box, :layout :row-middle
+    :props {}
+    :attrs {}
+    :presets #{}
+    :style {"padding" "4px 8px"}
+    :children {
+     "T" {
+      :id "T", :type :text, :layout nil
+      :props {"value" "Todolist"}
+      :attrs {}
+      :presets #{:font-fancy}
+      :style {}
+      :children {}
+     }
+     "b" {
+      :id "b", :type :space, :layout nil
+      :props {"width" "8"}
+      :attrs {}
+      :presets #{}
+      :style {}
+      :children {}
+     }
+     "j" {
+      :id "j", :type :input, :layout nil
+      :props {"action" "~:input", "value" "@"}
+      :attrs {"placeholder" "Task"}
+      :presets #{}
+      :style {}
+      :children {}
+     }
+     "r" {
+      :id "r", :type :space, :layout nil
+      :props {"width" "8"}
+      :attrs {}
+      :presets #{}
+      :style {}
+      :children {}
+     }
+     "v" {
+      :id "v", :type :button, :layout nil
+      :props {"text" "Submit", "action" "~:submit"}
+      :attrs {}
+      :presets #{}
+      :style {}
+      :children {}
+     }
+    }
+   }
+  }
+  "ZgOQN0Kvb" {
+   :id "ZgOQN0Kvb", :name "task", :mock-pointer "qV_zU_bKP", :width 400, :height 400
+   :mocks {
+    "qV_zU_bKP" {:id "qV_zU_bKP", :data "SOMETHING", :name "base"}
+   }
+   :markup {
+    :id "system", :type :box, :layout :row-parted
+    :props {}
+    :attrs {}
+    :presets #{}
+    :style {"padding" "4px 8px", "border-bottom" "1px solid #eee"}
+    :children {
+     "T" {
+      :id "T", :type :text, :layout nil
+      :props {"value" "@"}
+      :attrs {}
+      :presets #{:font-normal}
+      :style {}
+      :children {}
+     }
+     "j" {
+      :id "j", :type :icon, :layout nil
+      :props {"name" "delete", "action" "~:remove", "data" "@"}
+      :attrs {}
+      :presets #{}
+      :style {}
+      :children {}
+     }
+    }
+   }
+  }
+ }
+}
