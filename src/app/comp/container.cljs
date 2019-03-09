@@ -22,7 +22,7 @@
  (let [store (:store reel)
        states (:states store)
        model (:model store)
-       templates (extract-templates (read-string (inline "composed/composer.edn")))]
+       templates (extract-templates (read-string (inline "composer.edn")))]
    (div
     {}
     (render-markup
