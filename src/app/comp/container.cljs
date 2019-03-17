@@ -9,7 +9,7 @@
             [reel.comp.reel :refer [comp-reel]]
             [respo-md.comp.md :refer [comp-md]]
             [app.config :refer [dev?]]
-            [respo-composer.core :refer [render-markup extract-templates]]
+            [composer.core :refer [render-markup extract-templates]]
             [shadow.resource :refer [inline]]
             [cljs.reader :refer [read-string]]
             [cumulo-util.core :refer [id! unix-time!]]

@@ -21,7 +21,16 @@
     :attrs {}
     :presets #{}
     :style {}
-    :children {}
+    :children {
+     "T" {
+      :id "T", :type :text, :layout nil
+      :props {"value" "\"Example"}
+      :attrs {}
+      :presets #{:fullscreen}
+      :style {}
+      :children {}
+     }
+    }
    }
   }
   "meZ-MGUj6" {
@@ -55,5 +64,8 @@
     :props {}
    }
   }
+ }
+ :settings {
+  :colors {}
  }
 }

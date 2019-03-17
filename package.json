@@ -9,7 +9,7 @@
     "build-cdn": "shadow-cljs clj-run build.main/build-cdn",
     "build": "shadow-cljs clj-run build.main/build",
     "upload": "node target/upload.js",
-    "composer": "cd src/composed/ && composer-app",
+    "composer": "cd src/ && composer-app",
     "up": "yarn build-cdn && yarn upload",
     "page": "shadow-cljs clj-run build.main/page",
     "ln": "cd target && rm -f entry && ln -s ../entry",
@@ -24,7 +24,7 @@
   "devDependencies": {
     "coffeescript": "^2.3.2",
     "http-server": "^0.11.1",
-    "shadow-cljs": "^2.8.15"
+    "shadow-cljs": "^2.8.18"
   },
   "dependencies": {
     "feather-icons": "^4.19.0",
