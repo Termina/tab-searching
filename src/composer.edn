@@ -22,6 +22,14 @@
     :presets #{}
     :style {}
     :children {
+     "D" {
+      :id "D", :type :template, :layout nil
+      :props {"name" "input", "data" "@"}
+      :attrs {}
+      :presets #{}
+      :style {}
+      :children {}
+     }
      "T" {
       :id "T", :type :text, :layout nil
       :props {"value" "\"Example"}
@@ -37,31 +45,97 @@
    :id "meZ-MGUj6", :name "input", :mock-pointer nil, :width 400, :height 100
    :mocks {}
    :markup {
-    :layout :row, :type :box, :id "system"
+    :layout :row, :type :input, :id "system"
+    :children {}
+    :style {"width" "100%", "border" "none", "border-bottom" "1px solid #eee"}
+    :presets #{}
+    :attrs {"placeholder" "\"filter..."}
+    :props {}
+   }
+  }
+  "reYXJPMRm" {
+   :id "reYXJPMRm", :name "tab", :mock-pointer "SbqtBSOnU", :width 400, :height 400
+   :mocks {
+    "SbqtBSOnU" {
+     :id "SbqtBSOnU", :name "base"
+     :data {:id "01", :title "demo tab", :url "http://tiye.me", :icon "http://cdn.tiye.me/logo/erigeron.png"}
+    }
+   }
+   :markup {
+    :id "system", :type :box, :layout :row-middle
+    :props {}
+    :attrs {}
+    :presets #{}
+    :style {"padding" "4", "line-height" "16px", "border-bottom" "1px solid #eee"}
     :children {
      "T" {
-      :layout nil, :type :input, :id "T"
-      :children {}
-      :style {}
+      :id "T", :type :element, :layout nil
+      :props {"name" "img"}
+      :attrs {"src" "@:icon", "width" "40", "height" "40"}
       :presets #{}
-      :event {"click" ":nothing"}
+      :style {}
+      :children {}
+     }
+     "b" {
+      :id "b", :type :space, :layout nil
+      :props {"width" "8"}
       :attrs {}
-      :props {}
+      :presets #{}
+      :style {}
+      :children {}
      }
      "j" {
-      :layout nil, :type :button, :id "j"
-      :children {}
-      :style {}
-      :presets #{}
-      :event {"click" ":submit"}
-      :attrs {}
+      :id "j", :type :box, :layout :column
       :props {}
+      :attrs {}
+      :presets #{:flex}
+      :style {}
+      :children {
+       "T" {
+        :id "T", :type :box, :layout nil
+        :props {}
+        :attrs {}
+        :presets #{}
+        :style {}
+        :children {
+         "T" {
+          :id "T", :type :text, :layout nil
+          :props {"value" "@:title"}
+          :attrs {}
+          :presets #{}
+          :style {}
+          :children {}
+         }
+        }
+       }
+       "b" {
+        :id "b", :type :space, :layout nil
+        :props {"height" "4"}
+        :attrs {}
+        :presets #{}
+        :style {}
+        :children {}
+       }
+       "j" {
+        :id "j", :type :box, :layout nil
+        :props {}
+        :attrs {}
+        :presets #{}
+        :style {}
+        :children {
+         "T" {
+          :id "T", :type :text, :layout nil
+          :props {"value" "@:url"}
+          :attrs {}
+          :presets #{:font-fancy}
+          :style {"color" "hsl(200,80%,70%)"}
+          :children {}
+         }
+        }
+       }
+      }
      }
     }
-    :style {}
-    :presets #{}
-    :attrs {}
-    :props {}
    }
   }
  }
