@@ -5,13 +5,25 @@
  }
  :templates {
   "7Ut3EjsPV" {
-   :id "7Ut3EjsPV", :name "container", :mock-pointer "mC_GvBP4_", :width 400, :height 400
+   :id "7Ut3EjsPV", :name "container", :mock-pointer "mC_GvBP4_", :width "320", :height "100"
    :mocks {
+    "2AIi1kdSX" {
+     :id "2AIi1kdSX", :name "empty"
+     :data {
+      :query "demo"
+      :records []
+     }
+    }
     "mC_GvBP4_" {
      :id "mC_GvBP4_", :name "base"
      :data {
-      :input "demo"
-      :records ["task 1111" "tasl 3333"]
+      :query "demo"
+      :records [
+       {:id "01", :previous? false, :highlighted? false, :icon "http://cdn.tiye.me/logo/pudica.png", :title "PUDICA", :url "http://pudica.memkits.org"}
+       {:id "01", :previous? true, :highlighted? false, :icon "http://cdn.tiye.me/logo/pudica.png", :title "PUDICA", :url "http://pudica.memkits.org"}
+       {:id "01", :previous? false, :highlighted? true, :icon "http://cdn.tiye.me/logo/pudica.png", :title "PUDICA", :url "http://pudica.memkits.org"}
+       {:id "01", :previous? true, :highlighted? true, :icon "http://cdn.tiye.me/logo/pudica.png", :title "PUDICA", :url "http://pudica.memkits.org"}
+      ]
      }
     }
    }
@@ -30,35 +42,156 @@
       :style {}
       :children {}
      }
-     "T" {
-      :id "T", :type :text, :layout nil
-      :props {"value" "\"Example"}
+     "b" {
+      :id "q4-CbYFko", :type :some, :layout nil
+      :props {"value" "@:records", "kind" ":list"}
       :attrs {}
-      :presets #{:fullscreen}
+      :presets #{}
+      :style {}
+      :children {
+       "D" {
+        :id "D", :type :box, :layout :center
+        :props {}
+        :attrs {}
+        :presets #{}
+        :style {}
+        :children {
+         "T" {
+          :id "T", :type :text, :layout nil
+          :props {"value" "\"Empty"}
+          :attrs {}
+          :presets #{:font-fancy}
+          :style {"color" "#aaa"}
+          :children {}
+         }
+        }
+       }
+       "T" {
+        :id "b", :type :list, :layout nil
+        :props {"value" "@:records"}
+        :attrs {}
+        :presets #{}
+        :style {}
+        :children {
+         "T" {
+          :id "yYlDKUnh1", :type :some, :layout nil
+          :props {"value" "@:item :highlighted?"}
+          :attrs {}
+          :presets #{}
+          :style {}
+          :children {
+           "T" {
+            :id "tx97F3iRM", :type :box, :layout nil
+            :props {}
+            :attrs {}
+            :presets #{}
+            :style {"background-color" "hsl(277,82%,94%)"}
+            :children {
+             "T" {
+              :id "T", :type :template, :layout nil
+              :props {"name" "\"tab-highlight", "data" "@:item"}
+              :attrs {}
+              :presets #{}
+              :style {}
+              :children {}
+             }
+            }
+           }
+           "j" {
+            :id "T", :type :template, :layout nil
+            :props {"name" "\"tab-highlight", "data" "@:item"}
+            :attrs {}
+            :presets #{}
+            :style {}
+            :children {}
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+  "meZ-MGUj6" {
+   :id "meZ-MGUj6", :name "input", :mock-pointer "DjDu9h7FD", :width 400, :height "48"
+   :mocks {
+    "DjDu9h7FD" {
+     :id "DjDu9h7FD", :name "has-data"
+     :data {:query "DEMO"}
+    }
+    "UwFQFBIAA" {
+     :id "UwFQFBIAA", :name "base"
+     :data {:query ""}
+    }
+   }
+   :markup {
+    :layout :row, :type :input, :id "system"
+    :children {}
+    :style {"width" "100%", "border-bottom" "1px solid #eee", "line-height" "\"48px", "height" "\"48px", "border" "none"}
+    :presets #{}
+    :attrs {"placeholder" "\"filter..."}
+    :props {"value" "@:query"}
+   }
+  }
+  "nWg2UPH7Y" {
+   :id "nWg2UPH7Y", :name "tab-highlight", :mock-pointer "base", :width 400, :height "80"
+   :mocks {
+    "base" {
+     :id "base", :name "base"
+     :data {:id "01", :title "demo tab", :url "http://tiye.me", :icon "http://cdn.tiye.me/logo/erigeron.png", :previous? false, :highlighted? false}
+    }
+    "qMSZ7ZObQ" {
+     :id "qMSZ7ZObQ", :name "highlighed"
+     :data {:id "01", :title "demo tab", :url "http://tiye.me", :icon "http://cdn.tiye.me/logo/erigeron.png", :previous? false, :highlighted? true}
+    }
+   }
+   :markup {
+    :id "yYlDKUnh1", :type :some, :layout nil
+    :props {"value" "@:highlighted?", "kind" ":boolean"}
+    :attrs {}
+    :presets #{}
+    :style {}
+    :children {
+     "T" {
+      :id "tx97F3iRM", :type :box, :layout nil
+      :props {}
+      :attrs {}
+      :presets #{}
+      :style {"background-color" "hsl(277,82%,94%)"}
+      :children {
+       "T" {
+        :id "T", :type :template, :layout nil
+        :props {"name" "\"tab", "data" "@"}
+        :attrs {}
+        :presets #{}
+        :style {}
+        :children {}
+       }
+      }
+     }
+     "j" {
+      :id "T", :type :template, :layout nil
+      :props {"name" "\"tab", "data" "@"}
+      :attrs {}
+      :presets #{}
       :style {}
       :children {}
      }
     }
    }
   }
-  "meZ-MGUj6" {
-   :id "meZ-MGUj6", :name "input", :mock-pointer nil, :width 400, :height 100
-   :mocks {}
-   :markup {
-    :layout :row, :type :input, :id "system"
-    :children {}
-    :style {"width" "100%", "border" "none", "border-bottom" "1px solid #eee"}
-    :presets #{}
-    :attrs {"placeholder" "\"filter..."}
-    :props {}
-   }
-  }
   "reYXJPMRm" {
-   :id "reYXJPMRm", :name "tab", :mock-pointer "SbqtBSOnU", :width 400, :height 400
+   :id "reYXJPMRm", :name "tab", :mock-pointer "SbqtBSOnU", :width 400, :height "80"
    :mocks {
+    "RRVQWGBVB" {
+     :id "RRVQWGBVB", :name "previous-task"
+     :data {:id "01", :title "demo tab", :url "http://tiye.me", :icon "http://cdn.tiye.me/logo/erigeron.png", :previous? true, :highlighted? false}
+    }
     "SbqtBSOnU" {
      :id "SbqtBSOnU", :name "base"
-     :data {:id "01", :title "demo tab", :url "http://tiye.me", :icon "http://cdn.tiye.me/logo/erigeron.png"}
+     :data {:id "01", :title "demo tab", :url "http://tiye.me", :icon "http://cdn.tiye.me/logo/erigeron.png", :previous? false, :highlighted? false}
     }
    }
    :markup {
@@ -66,12 +199,12 @@
     :props {}
     :attrs {}
     :presets #{}
-    :style {"padding" "4", "line-height" "16px", "border-bottom" "1px solid #eee"}
+    :style {"padding" "4", "line-height" "16px", "border-bottom" "1px solid #eee", "position" "relative"}
     :children {
      "T" {
-      :id "T", :type :element, :layout nil
-      :props {"name" "img"}
-      :attrs {"src" "@:icon", "width" "40", "height" "40"}
+      :id "T", :type :image, :layout nil
+      :props {"src" "@:icon", "mode" ":img"}
+      :attrs {"width" "40", "height" "40"}
       :presets #{}
       :style {}
       :children {}
@@ -135,11 +268,39 @@
        }
       }
      }
+     "r" {
+      :id "H0fmv5mEi", :type :some, :layout nil
+      :props {"value" "@:previous?", "kind" ":boolean"}
+      :attrs {}
+      :presets #{}
+      :style {}
+      :children {
+       "D" {
+        :id "D", :type :box, :layout nil
+        :props {}
+        :attrs {}
+        :presets #{}
+        :style {}
+        :children {}
+       }
+       "T" {
+        :id "r", :type :icon, :layout nil
+        :props {"name" "anchor"}
+        :attrs {}
+        :presets #{}
+        :style {"position" "absolute", "right" "8"}
+        :children {}
+       }
+      }
+     }
     }
    }
   }
  }
  :settings {
-  :colors {}
+  :colors {
+   "UUTYR9QCF" {:id "UUTYR9QCF", :name "font", :color "#aaa", :group "theme"}
+   "f1XJKE1_2" {:id "f1XJKE1_2", :name "highlight", :color "hsl(277,82%,94%)", :group "theme"}
+  }
  }
 }
