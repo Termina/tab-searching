@@ -3,20 +3,19 @@
  :cache-blockers #{cumulo-util.build}
  :dependencies [[mvc-works/hsl          "0.1.2"]
                 [mvc-works/shell-page   "0.1.10"]
-                [respo                  "0.10.8"]
+                [respo                  "0.10.9"]
                 [respo/ui               "0.3.10"]
                 [respo/alerts           "0.3.11"]
                 [respo/value            "0.2.5"]
                 [respo/markdown         "0.2.4"]
                 [respo/feather          "0.1.1"]
                 [respo/reel             "0.3.4"]
-                [respo/composer         "0.1.2"]
+                [respo/composer         "0.1.5-a1"]
                 [cumulo/util            "0.1.4"]
                 [org.clojure/core.incubator "0.1.4"]]
  :repositories {"central" {:url "https://maven.aliyun.com/nexus/content/groups/public/"}
                 "clojars" {:url "https://mirrors.ustc.edu.cn/clojars/"}}
  :open-file-command ["subl" ["%s:%s:%s" :file :line :column]]
- :nrepl false
  :dev-http {7000 "target/"}
  :builds {:client {:target :browser
                    :output-dir "target/"

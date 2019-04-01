@@ -1,4 +1,4 @@
 
 (ns app.schema )
 
-(def store {:states {}, :content "", :model {:input "", :records []}})
+(def store {:states {}, :content "", :query "", :tabs [], :initial-tab-id nil})

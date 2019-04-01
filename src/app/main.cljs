@@ -18,6 +18,19 @@
   (when config/dev? (println "Dispatch:" op))
   (reset! *reel (reel-updater updater @*reel op op-data)))
 
+(defn fetch-initial-tabs! []
+  (-> js/chrome
+      .-tabs
+      (.query
+       (clj->js {:active true, :status :complete})
+       (fn [tabs]
+         (dispatch! :initial-tab (get-in (js->clj tabs :keywordize-keys true) [0 :id])))))
+  (-> js/chrome
+      .-tabs
+      (.query
+       (clj->js {:windowType :normal})
+       (fn [tabs] (dispatch! :all-tabs (js->clj tabs :keywordize-keys true))))))
+
 (def mount-target (.querySelector js/document ".app"))
 
 (defn persist-storage! []
@@ -38,6 +51,7 @@
   (repeat! 60 persist-storage!)
   (let [raw (.getItem js/localStorage (:storage-key config/site))]
     (when (some? raw) (dispatch! :hydrate-storage (read-string raw))))
+  (fetch-initial-tabs!)
   (println "App started."))
 
 (defn reload! []

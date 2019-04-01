@@ -5,20 +5,36 @@
  }
  :templates {
   "7Ut3EjsPV" {
-   :id "7Ut3EjsPV", :name "container", :mock-pointer "mC_GvBP4_", :width "320", :height "100"
+   :id "7Ut3EjsPV", :name "container", :mock-pointer "79udF66E7", :width "320", :height "300"
    :mocks {
     "2AIi1kdSX" {
      :id "2AIi1kdSX", :name "empty"
      :data {
       :query "demo"
-      :records []
+      :tabs []
+     }
+    }
+    "79udF66E7" {
+     :id "79udF66E7", :name "long"
+     :data {
+      :query "demo"
+      :tabs [
+       {:id "01", :previous? false, :highlighted? false, :icon "http://cdn.tiye.me/logo/pudica.png", :title "PUDICA", :url "http://pudica.memkits.org"}
+       {:id "01", :previous? false, :highlighted? false, :icon "http://cdn.tiye.me/logo/pudica.png", :title "PUDICA", :url "http://pudica.memkits.org"}
+       {:id "01", :previous? false, :highlighted? false, :icon "http://cdn.tiye.me/logo/pudica.png", :title "PUDICA", :url "http://pudica.memkits.org"}
+       {:id "01", :previous? false, :highlighted? false, :icon "http://cdn.tiye.me/logo/pudica.png", :title "PUDICA", :url "http://pudica.memkits.org"}
+       {:id "01", :previous? false, :highlighted? false, :icon "http://cdn.tiye.me/logo/pudica.png", :title "PUDICA", :url "http://pudica.memkits.org"}
+       {:id "01", :previous? false, :highlighted? false, :icon "http://cdn.tiye.me/logo/pudica.png", :title "PUDICA", :url "http://pudica.memkits.org"}
+       {:id "01", :previous? false, :highlighted? false, :icon "http://cdn.tiye.me/logo/pudica.png", :title "PUDICA", :url "http://pudica.memkits.org"}
+       {:id "01", :previous? false, :highlighted? false, :icon "http://cdn.tiye.me/logo/pudica.png", :title "PUDICA", :url "http://pudica.memkits.org"}
+      ]
      }
     }
     "mC_GvBP4_" {
      :id "mC_GvBP4_", :name "base"
      :data {
       :query "demo"
-      :records [
+      :tabs [
        {:id "01", :previous? false, :highlighted? false, :icon "http://cdn.tiye.me/logo/pudica.png", :title "PUDICA", :url "http://pudica.memkits.org"}
        {:id "01", :previous? true, :highlighted? false, :icon "http://cdn.tiye.me/logo/pudica.png", :title "PUDICA", :url "http://pudica.memkits.org"}
        {:id "01", :previous? false, :highlighted? true, :icon "http://cdn.tiye.me/logo/pudica.png", :title "PUDICA", :url "http://pudica.memkits.org"}
@@ -28,10 +44,10 @@
     }
    }
    :markup {
-    :id "system", :type :box, :layout nil
+    :id "system", :type :box, :layout :column
     :props {}
     :attrs {}
-    :presets #{}
+    :presets #{:fullscreen}
     :style {}
     :children {
      "D" {
@@ -44,7 +60,7 @@
      }
      "b" {
       :id "q4-CbYFko", :type :some, :layout nil
-      :props {"value" "@:records", "kind" ":list"}
+      :props {"value" "@:tabs", "kind" ":list"}
       :attrs {}
       :presets #{}
       :style {}
@@ -61,17 +77,17 @@
           :props {"value" "\"Empty"}
           :attrs {}
           :presets #{:font-fancy}
-          :style {"color" "#aaa"}
+          :style {"color" "#aaa", "line-height" "32px"}
           :children {}
          }
         }
        }
        "T" {
         :id "b", :type :list, :layout nil
-        :props {"value" "@:records"}
+        :props {"value" "@:tabs"}
         :attrs {}
-        :presets #{}
-        :style {}
+        :presets #{:expand}
+        :style {"overflow" "auto"}
         :children {
          "T" {
           :id "yYlDKUnh1", :type :some, :layout nil
@@ -131,8 +147,9 @@
     :children {}
     :style {"width" "100%", "border-bottom" "1px solid #eee", "line-height" "\"48px", "height" "\"48px", "border" "none"}
     :presets #{}
+    :event {"input" ":query", "keydown" ":keydown"}
     :attrs {"placeholder" "\"filter..."}
-    :props {"value" "@:query"}
+    :props {"value" "@:query", "param" "nil"}
    }
   }
   "nWg2UPH7Y" {
@@ -154,6 +171,14 @@
     :presets #{}
     :style {}
     :children {
+     "D" {
+      :id "T", :type :template, :layout nil
+      :props {"name" "\"tab", "data" "@"}
+      :attrs {}
+      :presets #{}
+      :style {}
+      :children {}
+     }
      "T" {
       :id "tx97F3iRM", :type :box, :layout nil
       :props {}
@@ -171,14 +196,6 @@
        }
       }
      }
-     "j" {
-      :id "T", :type :template, :layout nil
-      :props {"name" "\"tab", "data" "@"}
-      :attrs {}
-      :presets #{}
-      :style {}
-      :children {}
-     }
     }
    }
   }
@@ -195,11 +212,7 @@
     }
    }
    :markup {
-    :id "system", :type :box, :layout :row-middle
-    :props {}
-    :attrs {}
-    :presets #{}
-    :style {"padding" "4", "line-height" "16px", "border-bottom" "1px solid #eee", "position" "relative"}
+    :layout :row-middle, :type :box, :id "system"
     :children {
      "T" {
       :id "T", :type :image, :layout nil
@@ -294,6 +307,11 @@
       }
      }
     }
+    :style {"padding" "4", "line-height" "16px", "border-bottom" "1px solid #eee", "position" "relative", "cursor" "pointer"}
+    :presets #{}
+    :event {"click" ":click"}
+    :attrs {}
+    :props {"param" "@:id"}
    }
   }
  }

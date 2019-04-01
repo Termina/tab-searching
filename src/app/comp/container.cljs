@@ -13,23 +13,33 @@
             [shadow.resource :refer [inline]]
             [cljs.reader :refer [read-string]]
             [cumulo-util.core :refer [id! unix-time!]]
-            [app.updater :refer [model-updater]]
-            [respo.comp.inspect :refer [comp-inspect]]))
+            [respo.comp.inspect :refer [comp-inspect]]
+            [clojure.string :as string]))
+
+(defn transform-data [store]
+  (-> store
+      (update
+       :tabs
+       (fn [tabs] (->> tabs (map (fn [tab] (assoc tab :icon (:favIconUrl tab)))) (vec))))))
 
 (defcomp
  comp-container
  (reel)
+ (println "rendering")
  (let [store (:store reel)
        states (:states store)
-       model (:model store)
        templates (extract-templates (read-string (inline "composer.edn")))]
    (div
     {}
     (render-markup
      (get templates "container")
-     {:data model, :templates templates, :level 1}
-     (fn [d! op props op-data]
-       (println "Action" op props (pr-str op-data))
-       (d! :model (model-updater model op props op-data (id!) (unix-time!)))))
-    (when dev? (comp-inspect "model" model {}))
+     {:data (transform-data store), :templates templates, :level 1}
+     (fn [d! op param options]
+       (when dev? (println "Action" op param (pr-str options)))
+       (case op
+         :input (d! :input (:value options))
+         :submit (when-not (string/blank? (:input store)) (d! :submit nil))
+         :remove (d! :remove param)
+         (do (println "Unknown op:" op)))))
+    (when dev? (comp-inspect "Store" store {}))
     (when dev? (cursor-> :reel comp-reel states reel {})))))
