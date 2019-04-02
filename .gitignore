@@ -1,8 +1,10 @@
 
-/extension/build/
-/extension/lib/
-/extension/js/
-/extension/index.html
-/node_modules/
-/assets.json
-/index.html
+/target/
+/dist
+/node_modules
+.cpcache/
+.shadow-cljs/
+
+.nrepl-port
+
+old/
