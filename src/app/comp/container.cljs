@@ -14,32 +14,58 @@
             [cljs.reader :refer [read-string]]
             [cumulo-util.core :refer [id! unix-time!]]
             [respo.comp.inspect :refer [comp-inspect]]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [fuzzy-filter.core :refer [parse-by-letter]]))
 
 (defn transform-data [store]
-  (-> store
-      (update
-       :tabs
-       (fn [tabs] (->> tabs (map (fn [tab] (assoc tab :icon (:favIconUrl tab)))) (vec))))))
+  (let [query (or (:query store) ""), pointer (or (:pointer store) 0)]
+    (-> store
+        (update
+         :tabs
+         (fn [tabs]
+           (->> tabs
+                (filter
+                 (fn [tab]
+                   (or (:matches?
+                        (parse-by-letter
+                         (string/lower-case (:title tab))
+                         (string/lower-case query)))
+                       (:matches?
+                        (parse-by-letter
+                         (string/lower-case (:url tab))
+                         (string/lower-case query))))))
+                (map-indexed
+                 (fn [idx tab]
+                   (-> tab
+                       (assoc
+                        :icon
+                        (or (:favIconUrl tab) "http://cdn.tiye.me/logo/pudica.png"))
+                       (assoc :highlighted? (= pointer idx)))))
+                (vec)))))))
 
 (defcomp
  comp-container
  (reel)
- (println "rendering")
  (let [store (:store reel)
        states (:states store)
-       templates (extract-templates (read-string (inline "composer.edn")))]
+       templates (extract-templates (read-string (inline "composer.edn")))
+       model (transform-data store)
+       length (count (:tabs model))]
    (div
     {}
     (render-markup
      (get templates "container")
-     {:data (transform-data store), :templates templates, :level 1}
+     {:data model, :templates templates, :level 1}
      (fn [d! op param options]
-       (when dev? (println "Action" op param (pr-str options)))
+       (when dev? (comment println "Action" op param (pr-str options)))
        (case op
-         :input (d! :input (:value options))
-         :submit (when-not (string/blank? (:input store)) (d! :submit nil))
-         :remove (d! :remove param)
+         :query (do (d! :query (:value options)) (d! :pointer 0))
+         :keydown
+           (let [event (:event options)]
+             (case (.-key event)
+               "ArrowDown" (when (not (>= (:pointer model) (dec length))) (d! :move-down nil))
+               "ArrowUp" (when (pos? (:pointer model)) (d! :move-up nil))
+               (do)))
          (do (println "Unknown op:" op)))))
     (when dev? (comp-inspect "Store" store {}))
     (when dev? (cursor-> :reel comp-reel states reel {})))))

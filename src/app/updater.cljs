@@ -8,4 +8,7 @@
     :query (assoc store :query op-data)
     :all-tabs (assoc store :tabs op-data)
     :initial-tab (assoc store :initial-tab-id op-data)
+    :pointer (assoc store :pointer 0)
+    :move-down (update store :pointer inc)
+    :move-up (update store :pointer dec)
     (do (println "Unknown op:" op) store)))

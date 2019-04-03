@@ -49,8 +49,10 @@
   (listen-devtools! "a" dispatch!)
   (.addEventListener js/window "beforeunload" persist-storage!)
   (repeat! 60 persist-storage!)
-  (let [raw (.getItem js/localStorage (:storage-key config/site))]
-    (when (some? raw) (dispatch! :hydrate-storage (read-string raw))))
+  (comment
+   let
+   ((raw (.getItem js/localStorage (:storage-key config/site))))
+   (when (some? raw) (dispatch! :hydrate-storage (read-string raw))))
   (fetch-initial-tabs!)
   (println "App started."))
 
