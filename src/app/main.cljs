@@ -9,7 +9,9 @@
             [reel.schema :as reel-schema]
             [cljs.reader :refer [read-string]]
             [app.config :as config]
-            [cumulo-util.core :refer [repeat!]]))
+            [cumulo-util.core :refer [repeat!]]
+            [app.chrome :as chrome]
+            [app.util :refer [index-of]]))
 
 (defonce *reel
   (atom (-> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store))))
@@ -19,17 +21,18 @@
   (reset! *reel (reel-updater updater @*reel op op-data)))
 
 (defn fetch-initial-tabs! []
-  (-> js/chrome
-      .-tabs
-      (.query
-       (clj->js {:active true, :status :complete})
-       (fn [tabs]
-         (dispatch! :initial-tab (get-in (js->clj tabs :keywordize-keys true) [0 :id])))))
-  (-> js/chrome
-      .-tabs
-      (.query
-       (clj->js {:windowType :normal})
-       (fn [tabs] (dispatch! :all-tabs (js->clj tabs :keywordize-keys true))))))
+  (chrome/query-tabs!
+   {:windowType :normal}
+   (fn [tabs]
+     (chrome/query-tabs!
+      {:active true, :status :complete}
+      (fn [focus-tabs]
+        (let [initial-id (get-in focus-tabs [0 :id])
+              idx (index-of initial-id (map :id tabs))]
+          (dispatch! :initial-tab initial-id)
+          (dispatch! :query idx)
+          (println "found tab" idx initial-id (map :id tabs)))))
+     (dispatch! :all-tabs tabs))))
 
 (def mount-target (.querySelector js/document ".app"))
 
@@ -54,6 +57,7 @@
    ((raw (.getItem js/localStorage (:storage-key config/site))))
    (when (some? raw) (dispatch! :hydrate-storage (read-string raw))))
   (fetch-initial-tabs!)
+  (.focus (.querySelector js/document ".query"))
   (println "App started."))
 
 (defn reload! []

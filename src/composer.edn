@@ -209,7 +209,7 @@
     :style {"width" "100%", "border-bottom" "1px solid #eee", "line-height" "\"48px", "height" "\"48px", "border" "none"}
     :presets #{}
     :event {"input" ":query", "keydown" ":keydown"}
-    :attrs {"placeholder" "\"filter..."}
+    :attrs {"placeholder" "\"filter...", "class-name" "\"query"}
     :props {"value" "@:query", "param" "nil"}
    }
   }

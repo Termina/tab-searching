@@ -15,7 +15,33 @@
             [cumulo-util.core :refer [id! unix-time!]]
             [respo.comp.inspect :refer [comp-inspect]]
             [clojure.string :as string]
-            [fuzzy-filter.core :refer [parse-by-letter]]))
+            [fuzzy-filter.core :refer [parse-by-letter]]
+            [app.chrome :as chrome]
+            [app.util :refer [index-of]]))
+
+(defn on-action [d! op param options model]
+  (let [length (count (:tabs model)), initial-id (:initial-tab-id model)]
+    (case op
+      :query (do (d! :query (:value options)) (d! :pointer 0))
+      :keydown
+        (let [event (:event options), pointer (:pointer model)]
+          (case (.-key event)
+            "ArrowDown"
+              (when (not (>= pointer (dec length)))
+                (d! :pointer (inc pointer))
+                (chrome/select-tab! (get-in model [:tabs (inc pointer) :id])))
+            "ArrowUp"
+              (when (pos? pointer)
+                (d! :pointer (dec pointer))
+                (chrome/select-tab! (get-in model [:tabs (dec pointer) :id])))
+            "Enter" (when (= 13 (.-keyCode event)) (chrome/close!))
+            "Escape" (do (chrome/select-tab! initial-id) (chrome/close!))
+            (do (println (.-key event)))))
+      :click
+        (let [idx (index-of param (map :id (:tabs model)))]
+          (d! :pointer idx)
+          (chrome/select-tab! (get-in model [:tabs idx :id])))
+      (do (println "Unknown op:" op)))))
 
 (defn transform-data [store]
   (let [query (or (:query store) ""), pointer (or (:pointer store) 0)]
@@ -49,8 +75,7 @@
  (let [store (:store reel)
        states (:states store)
        templates (extract-templates (read-string (inline "composer.edn")))
-       model (transform-data store)
-       length (count (:tabs model))]
+       model (transform-data store)]
    (div
     {}
     (render-markup
@@ -58,14 +83,6 @@
      {:data model, :templates templates, :level 1}
      (fn [d! op param options]
        (when dev? (comment println "Action" op param (pr-str options)))
-       (case op
-         :query (do (d! :query (:value options)) (d! :pointer 0))
-         :keydown
-           (let [event (:event options)]
-             (case (.-key event)
-               "ArrowDown" (when (not (>= (:pointer model) (dec length))) (d! :move-down nil))
-               "ArrowUp" (when (pos? (:pointer model)) (d! :move-up nil))
-               (do)))
-         (do (println "Unknown op:" op)))))
-    (when dev? (comp-inspect "Store" store {}))
+       (on-action d! op param options model)))
+    (when dev? (comp-inspect "Store" store {:bottom 20}))
     (when dev? (cursor-> :reel comp-reel states reel {})))))
