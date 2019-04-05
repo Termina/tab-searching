@@ -12,7 +12,8 @@
             [cumulo-util.core :refer [repeat!]]
             [app.chrome :as chrome]
             [app.util :refer [index-of]]
-            [app.work :as work]))
+            [app.work :as work]
+            ["url-parse" :as url-parse]))
 
 (defonce *reel
   (atom (-> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store))))
@@ -24,17 +25,19 @@
   (reset! *reel (reel-updater updater @*reel op op-data)))
 
 (defn fetch-initial-tabs! []
-  (chrome/query-tabs!
-   {:windowType :normal}
-   (fn [tabs]
-     (chrome/query-tabs!
-      {:active true, :status :complete}
-      (fn [focus-tabs]
-        (let [initial-id (get-in focus-tabs [0 :id])
-              idx (index-of initial-id (map :id tabs))]
-          (dispatch! :initial-tab initial-id)
-          (println "found tab" idx initial-id (map :id tabs)))))
-     (dispatch! :all-tabs tabs))))
+  (let [url-obj (url-parse js/location.href true)
+        window-id (js/parseInt (.. url-obj -query -windowId))]
+    (chrome/query-tabs!
+     {:windowType :normal, :windowId window-id}
+     (fn [tabs]
+       (chrome/query-tabs!
+        {:active true, :windowId window-id}
+        (fn [focus-tabs]
+          (let [initial-id (get-in focus-tabs [0 :id])
+                idx (index-of initial-id (map :id tabs))]
+            (dispatch! :initial-tab initial-id)
+            (println "found tab" idx initial-id (map :id tabs)))))
+       (dispatch! :all-tabs tabs)))))
 
 (def mount-target (.querySelector js/document ".app"))
 

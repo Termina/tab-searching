@@ -12,11 +12,10 @@ openWindow = ->
     popup.left = from_win.width - popup.width + from_win.left
     popup.top = from_win.top
     popup.height = from_win.height - 24
+    popup.url = "index.html?windowId=#{from_win.id}"
     chrome.windows.create popup, (win) ->
       chrome.windows.update win.id, drawAttention: yes
       last_window_id = win.id
-      tab = tabs[0]
-      console.log "tab:", tab
 
 chrome.commands.onCommand.addListener (command) ->
   if command is "launch"

@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "feather-icons": "^4.21.0",
-    "shortid": "^2.2.14"
+    "shortid": "^2.2.14",
+    "url-parse": "^1.4.4"
   }
 }
