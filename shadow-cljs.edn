@@ -27,7 +27,9 @@
                    :compiler-options {:infer-externs :auto}
                    :release {:output-dir "dist/"
                              :module-hash-names 8
-                             :build-options {:manifest-name "assets.edn"}}}
+                             :build-options {:manifest-name "assets.edn"}
+                             :compiler-options {:pretty-print true
+                                                :pseudo-names true}}}
           :page {:target :node-script
                  :output-to "target/page.js"
                  :main app.page/main!

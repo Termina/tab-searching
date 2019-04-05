@@ -11,10 +11,13 @@
             [app.config :as config]
             [cumulo-util.core :refer [repeat!]]
             [app.chrome :as chrome]
-            [app.util :refer [index-of]]))
+            [app.util :refer [index-of]]
+            [app.work :as work]))
 
 (defonce *reel
   (atom (-> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store))))
+
+(def *tab-id (atom nil))
 
 (defn dispatch! [op op-data]
   (when config/dev? (println "Dispatch:" op))
@@ -30,7 +33,6 @@
         (let [initial-id (get-in focus-tabs [0 :id])
               idx (index-of initial-id (map :id tabs))]
           (dispatch! :initial-tab initial-id)
-          (dispatch! :query idx)
           (println "found tab" idx initial-id (map :id tabs)))))
      (dispatch! :all-tabs tabs))))
 
@@ -40,7 +42,12 @@
   (.setItem js/localStorage (:storage-key config/site) (pr-str (:store @*reel))))
 
 (defn render-app! [renderer]
-  (renderer mount-target (comp-container @*reel) #(dispatch! %1 %2)))
+  (let [model (work/get-view-model (:store @*reel))]
+    (renderer mount-target (comp-container @*reel model work/on-action!) #(dispatch! %1 %2))
+    (let [active-tab (get (:tabs model) (:pointer model)), tab-id (:id active-tab)]
+      (when (not= tab-id @*tab-id)
+        (reset! *tab-id (:id active-tab))
+        (chrome/select-tab! tab-id)))))
 
 (def ssr? (some? (js/document.querySelector "meta.respo-ssr")))
 
