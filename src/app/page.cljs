@@ -7,7 +7,8 @@
             [reel.schema :as reel-schema]
             [cljs.reader :refer [read-string]]
             [app.config :as config]
-            [cumulo-util.build :refer [get-ip!]])
+            [cumulo-util.build :refer [get-ip!]]
+            [app.work :as work])
   (:require-macros [clojure.core.strint :refer [<<]]))
 
 (def base-info
@@ -24,7 +25,8 @@
 
 (defn prod-page []
   (let [reel (-> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store))
-        html-content (make-string (comp-container reel))
+        html-content (make-string
+                      (comp-container reel (work/get-view-model (:store reel)) nil))
         assets (read-string (slurp "dist/assets.edn"))
         cdn (if config/cdn? (:cdn-url config/site) "")
         prefix-cdn (fn [x] (str cdn x))]
