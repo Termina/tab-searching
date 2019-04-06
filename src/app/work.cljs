@@ -39,7 +39,8 @@
                        (assoc
                         :icon
                         (or (:favIconUrl tab) "http://cdn.tiye.me/logo/pudica.png"))
-                       (assoc :highlighted? (= pointer idx)))))
+                       (assoc :highlighted? (= pointer idx))
+                       (assoc :previous? (= (:initial-tab-id store) (:id tab))))))
                 (vec)))))))
 
 (defn on-action! [d! op param options model]

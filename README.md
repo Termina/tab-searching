@@ -16,7 +16,7 @@ Clone the repo and get `dist/` folder by running:
 yarn
 yarn build
 yarn bg
-cp extensions/* dist/
+cp extension/* dist/
 ```
 
 ### Shortcuts

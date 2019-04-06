@@ -3451,6 +3451,33 @@
                          }
                         }
                        }
+                       "r" {
+                        :type :expr, :by "root", :at 1554528525996, :id "4jEHTqV1aj"
+                        :data {
+                         "T" {:type :leaf, :by "root", :at 1554528527129, :text "assoc", :id "4jEHTqV1ajleaf"}
+                         "j" {:type :leaf, :by "root", :at 1554528532117, :text ":previous?", :id "iNOe1ZjfZM"}
+                         "r" {
+                          :type :expr, :by "root", :at 1554528532781, :id "dC3Fxy5b3"
+                          :data {
+                           "T" {:type :leaf, :by "root", :at 1554528532943, :text "=", :id "eU8Bxn-Sud"}
+                           "b" {
+                            :type :expr, :by "root", :at 1554528538498, :id "yORlIZ5jvq"
+                            :data {
+                             "T" {:type :leaf, :by "root", :at 1554528551355, :text ":initial-tab-id", :id "PvUweAvPcK"}
+                             "j" {:type :leaf, :by "root", :at 1554528554994, :text "store", :id "av6UBOoyk"}
+                            }
+                           }
+                           "j" {
+                            :type :expr, :by "root", :at 1554528535493, :id "JREJI8B5ko"
+                            :data {
+                             "T" {:type :leaf, :by "root", :at 1554528535951, :text ":id", :id "YYfWF8YH3"}
+                             "j" {:type :leaf, :by "root", :at 1554528537023, :text "tab", :id "gP7UBcdYOB"}
+                            }
+                           }
+                          }
+                         }
+                        }
+                       }
                       }
                      }
                     }
