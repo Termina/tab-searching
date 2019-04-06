@@ -5,7 +5,7 @@
  }
  :templates {
   "0df8Y4gWe" {
-   :id "0df8Y4gWe", :name "tab-highlight", :mock-pointer "base", :width 400, :height 400
+   :id "0df8Y4gWe", :name "tab-highlight", :mock-pointer "base", :width 400, :height "100"
    :mocks {
     "base" {
      :id "base", :name "base"
@@ -191,6 +191,56 @@
     }
    }
   }
+  "LKQkrmXBE" {
+   :id "LKQkrmXBE", :name "icon", :mock-pointer "base", :width "60", :height "60"
+   :mocks {
+    "7weB_pysC" {:id "7weB_pysC", :data nil, :name "nil"}
+    "BaZaRCaEE" {:id "BaZaRCaEE", :data "http://cdn.tiye.me/logo/copycat.png", :name "url"}
+    "base" {:id "base", :data "", :name "base"}
+   }
+   :markup {
+    :type :some, :layout nil
+    :props {"value" "@", "kind" ":value"}
+    :attrs {}
+    :presets #{}
+    :style {}
+    :children {
+     "D" {
+      :type :box, :layout nil
+      :props {}
+      :attrs {}
+      :presets #{}
+      :style {"background-color" "hsl(277,82%,94%)", "width" "40px", "height" "40px", "border-radius" "50%"}
+      :children {}
+     }
+     "T" {
+      :type :some, :layout nil
+      :props {"value" "@", "kind" ":string"}
+      :attrs {}
+      :presets #{}
+      :style {}
+      :children {
+       "D" {
+        :type :box, :layout nil
+        :props {}
+        :attrs {}
+        :presets #{}
+        :style {"background-color" "hsl(277,82%,94%)", "width" "40px", "height" "40px", "border-radius" "50%"}
+        :children {}
+       }
+       "T" {
+        :id "T", :type :image, :layout nil
+        :props {"src" "@", "mode" ":img"}
+        :attrs {"width" "40", "height" "40"}
+        :presets #{}
+        :style {}
+        :children {}
+       }
+      }
+     }
+    }
+   }
+  }
   "meZ-MGUj6" {
    :id "meZ-MGUj6", :name "input", :mock-pointer "DjDu9h7FD", :width 400, :height "48"
    :mocks {
@@ -228,10 +278,10 @@
    :markup {
     :layout :row-middle, :type :box, :id "system"
     :children {
-     "T" {
-      :id "T", :type :image, :layout nil
-      :props {"src" "@:icon", "mode" ":img"}
-      :attrs {"width" "40", "height" "40"}
+     "D" {
+      :type :template, :layout nil
+      :props {"name" "\"icon", "data" "@:icon"}
+      :attrs {}
       :presets #{}
       :style {}
       :children {}
@@ -249,7 +299,7 @@
       :props {}
       :attrs {}
       :presets #{:flex}
-      :style {}
+      :style {"overflow" "hidden"}
       :children {
        "T" {
         :id "T", :type :box, :layout nil
@@ -281,14 +331,14 @@
         :props {}
         :attrs {}
         :presets #{}
-        :style {}
+        :style {"overflow" "hidden", "text-overflow" "ellipsis"}
         :children {
          "T" {
           :id "T", :type :text, :layout nil
           :props {"value" "@:url"}
           :attrs {}
           :presets #{:font-fancy}
-          :style {"color" "hsl(200,80%,70%)"}
+          :style {"color" "hsl(200,80%,70%)", "white-space" "nowrap", "text-overflow" "ellipsis", "overflow" "hidden"}
           :children {}
          }
         }
