@@ -13,7 +13,8 @@
             [app.chrome :as chrome]
             [app.util :refer [index-of]]
             [app.work :as work]
-            ["url-parse" :as url-parse]))
+            ["url-parse" :as url-parse]
+            [clojure.core.async :refer [go chan <! >!]]))
 
 (defonce *reel
   (atom (-> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store))))
@@ -25,19 +26,18 @@
   (reset! *reel (reel-updater updater @*reel op op-data)))
 
 (defn fetch-initial-tabs! []
-  (let [url-obj (url-parse js/location.href true)
-        window-id (js/parseInt (.. url-obj -query -windowId))]
-    (chrome/query-tabs!
-     {:windowType :normal, :windowId window-id}
-     (fn [tabs]
-       (chrome/query-tabs!
-        {:active true, :windowId window-id}
-        (fn [focus-tabs]
-          (let [initial-id (get-in focus-tabs [0 :id])
-                idx (index-of initial-id (map :id tabs))]
-            (dispatch! :initial-tab initial-id)
-            (println "found tab" idx initial-id (map :id tabs)))))
-       (dispatch! :all-tabs tabs)))))
+  (go
+   (let [url-obj (url-parse js/location.href true)
+         window-id (js/parseInt (.. url-obj -query -windowId))
+         <all-tabs (chrome/chan-query-tabs {:windowType :normal, :windowId window-id})
+         <focused-tabs (chrome/chan-query-tabs {:active true, :windowId window-id})
+         all-tabs (:data (<! <all-tabs))
+         initial-tab (first (:data (<! <focused-tabs)))
+         initial-id (:id initial-tab)
+         idx (index-of initial-id (map :id all-tabs))]
+     (dispatch! :initial-tab initial-id)
+     (dispatch! :pointer idx)
+     (dispatch! :all-tabs all-tabs))))
 
 (def mount-target (.querySelector js/document ".app"))
 
