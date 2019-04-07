@@ -1,18 +1,23 @@
 
-Tab Searching for Chrome
+Tab Searching
 ------
 
-### Usage for users
+> Sublime Text style tab switching for Chrome.
 
-![](https://developers.google.com/chrome/web-store/images/branding/ChromeWebStore_BadgeWBorder_v2_206x58.png)
+![](https://pbs.twimg.com/media/D3YyE6PUYAIboT4.jpg:large)
 
-![](http://img4.picbed.org/uploads/2014/03/tab-searching.png)
+[Install from Chrome WebStore](https://chrome.google.com/webstore/detail/tab-searching/mghfpkfegmeanpcabcmiipiknkegjnkd).
 
-Keywords are searched in both urls and titles.
+### Build by yourself
 
-You may need to add launching shortcut by following this guide:
+Clone the repo and get `dist/` folder by running:
 
-http://googlesystem.blogspot.com/2012/08/create-keyboard-shortcuts-for-chrome.html
+```bash
+yarn
+yarn build
+yarn bg
+cp extension/* dist/
+```
 
 ### Shortcuts
 

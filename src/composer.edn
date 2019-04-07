@@ -4,9 +4,96 @@
   "OzQOOvni3" {:id "OzQOOvni3", :name "chen", :nickname "chen", :password "d41d8cd98f00b204e9800998ecf8427e", :avatar nil}
  }
  :templates {
-  "7Ut3EjsPV" {
-   :id "7Ut3EjsPV", :name "container", :mock-pointer "79udF66E7", :width "320", :height "300"
+  "0df8Y4gWe" {
+   :id "0df8Y4gWe", :name "tab-highlight", :mock-pointer "base", :width 400, :height "100"
    :mocks {
+    "base" {
+     :id "base", :name "base"
+     :data {
+      :favIconUrl "http://cdn.tiye.me/logo/respo.png", :selected true, :pinned false, :index 0, :width 1156, :highlighted true, :icon "http://cdn.tiye.me/logo/respo.png", :highlighted? true, :autoDiscardable true, :title "Composer App", :windowId 6390, :status "complete", :active true, :id 17725, :incognito false, :url "http://192.168.99.149:7001/", :audible false, :discarded false, :height 659
+      :mutedInfo {:muted false}
+     }
+    }
+   }
+   :markup {
+    :id "yYlDKUnh1", :type :some, :layout nil
+    :props {"value" "@:highlighted?", "kind" ":boolean"}
+    :attrs {}
+    :presets #{}
+    :style {}
+    :children {
+     "T" {
+      :id "T", :type :template, :layout nil
+      :props {"name" "\"tab", "data" "@"}
+      :attrs {}
+      :presets #{}
+      :style {}
+      :children {}
+     }
+     "j" {
+      :id "QBxa5FhkF", :type :box, :layout nil
+      :props {}
+      :attrs {}
+      :presets #{}
+      :style {"background-color" "hsl(277,82%,94%)"}
+      :children {
+       "T" {
+        :id "T", :type :template, :layout nil
+        :props {"name" "\"tab", "data" "@"}
+        :attrs {}
+        :presets #{}
+        :style {}
+        :children {}
+       }
+      }
+     }
+    }
+   }
+  }
+  "7Ut3EjsPV" {
+   :id "7Ut3EjsPV", :name "container", :mock-pointer "-OmnV3uKE", :width "320", :height "300"
+   :mocks {
+    "-OmnV3uKE" {
+     :id "-OmnV3uKE", :name "real"
+     :data {
+      :content "", :initial-tab-id 17725, :query ""
+      :states {}
+      :model {
+       :input ""
+       :records []
+      }
+      :tabs [
+       {
+        :favIconUrl "http://cdn.tiye.me/logo/respo.png", :selected true, :pinned false, :index 0, :width 1156, :highlighted true, :icon "http://cdn.tiye.me/logo/respo.png", :highlighted? true, :autoDiscardable true, :title "Composer App", :windowId 6390, :status "complete", :active true, :id 17725, :incognito false, :url "http://192.168.99.149:7001/", :audible false, :discarded false, :height 659
+        :mutedInfo {:muted false}
+       }
+       {
+        :favIconUrl "https://github.githubassets.com/favicon.ico", :selected false, :pinned false, :index 1, :width 1156, :highlighted false, :icon "https://github.githubassets.com/favicon.ico", :highlighted? false, :autoDiscardable true, :title "mvc-works/fuzzy-filter: Customized text filter solution", :windowId 6390, :status "complete", :active false, :id 20445, :incognito false, :url "https://github.com/mvc-works/fuzzy-filter", :audible false, :discarded false, :height 978
+        :mutedInfo {:muted false}
+       }
+       {
+        :favIconUrl "http://cdn.tiye.me/logo/mvc-works.png", :selected false, :pinned false, :index 2, :width 1156, :highlighted false, :icon "http://cdn.tiye.me/logo/mvc-works.png", :highlighted? false, :autoDiscardable true, :title "EDN Formatter", :windowId 6390, :status "complete", :active false, :id 20480, :incognito false, :url "http://repo.tiye.me/mvc-works/edn-formatter/", :audible false, :discarded false, :height 978
+        :mutedInfo {:muted false}
+       }
+       {
+        :favIconUrl "https://cdn.tiye.me/logo/cirru.png", :selected true, :pinned false, :index 0, :width 1259, :highlighted true, :icon "https://cdn.tiye.me/logo/cirru.png", :highlighted? false, :autoDiscardable true, :title "Calcit Editor", :windowId 8198, :status "complete", :active true, :id 19173, :incognito false, :url "https://calcit-editor.cirru.org/?port=6001", :audible false, :discarded false, :height 978
+        :mutedInfo {:muted false}
+       }
+       {
+        :favIconUrl "http://cdn.tiye.me/logo/respo.png", :selected false, :pinned false, :index 0, :width 1280, :highlighted false, :icon "http://cdn.tiye.me/logo/respo.png", :highlighted? false, :autoDiscardable true, :title "Composer", :windowId 8900, :status "complete", :active false, :id 19219, :incognito false, :url "http://composer.respo-mvc.org/", :audible false, :discarded false, :height 698
+        :mutedInfo {:muted false}
+       }
+       {
+        :favIconUrl "https://github.githubassets.com/favicon.ico", :selected false, :pinned false, :index 1, :width 1280, :highlighted false, :icon "https://github.githubassets.com/favicon.ico", :highlighted? false, :autoDiscardable true, :title "Respo/composer: Deviser toolkits in Respo scenarios.", :windowId 8900, :status "complete", :active false, :id 20486, :incognito false, :url "https://github.com/Respo/composer", :audible false, :discarded false, :height 698
+        :mutedInfo {:muted false}
+       }
+       {
+        :favIconUrl "https://cdn.tiye.me/logo/cirru.png", :selected true, :pinned false, :index 2, :width 1280, :highlighted true, :icon "https://cdn.tiye.me/logo/cirru.png", :highlighted? false, :autoDiscardable true, :title "Calcit Editor", :windowId 8900, :status "complete", :active true, :id 20490, :incognito false, :url "https://calcit-editor.cirru.org/?port=6002", :audible false, :discarded false, :height 698
+        :mutedInfo {:muted false}
+       }
+      ]
+     }
+    }
     "2AIi1kdSX" {
      :id "2AIi1kdSX", :name "empty"
      :data {
@@ -90,40 +177,64 @@
         :style {"overflow" "auto"}
         :children {
          "T" {
-          :id "yYlDKUnh1", :type :some, :layout nil
-          :props {"value" "@:item :highlighted?"}
+          :id "T", :type :template, :layout nil
+          :props {"name" "\"tab-highlight", "data" "@:item"}
           :attrs {}
           :presets #{}
           :style {}
-          :children {
-           "T" {
-            :id "tx97F3iRM", :type :box, :layout nil
-            :props {}
-            :attrs {}
-            :presets #{}
-            :style {"background-color" "hsl(277,82%,94%)"}
-            :children {
-             "T" {
-              :id "T", :type :template, :layout nil
-              :props {"name" "\"tab-highlight", "data" "@:item"}
-              :attrs {}
-              :presets #{}
-              :style {}
-              :children {}
-             }
-            }
-           }
-           "j" {
-            :id "T", :type :template, :layout nil
-            :props {"name" "\"tab-highlight", "data" "@:item"}
-            :attrs {}
-            :presets #{}
-            :style {}
-            :children {}
-           }
-          }
+          :children {}
          }
         }
+       }
+      }
+     }
+    }
+   }
+  }
+  "LKQkrmXBE" {
+   :id "LKQkrmXBE", :name "icon", :mock-pointer "base", :width "60", :height "60"
+   :mocks {
+    "7weB_pysC" {:id "7weB_pysC", :data nil, :name "nil"}
+    "BaZaRCaEE" {:id "BaZaRCaEE", :data "http://cdn.tiye.me/logo/copycat.png", :name "url"}
+    "base" {:id "base", :data "", :name "base"}
+   }
+   :markup {
+    :type :some, :layout nil
+    :props {"value" "@", "kind" ":value"}
+    :attrs {}
+    :presets #{}
+    :style {}
+    :children {
+     "D" {
+      :type :box, :layout nil
+      :props {}
+      :attrs {}
+      :presets #{}
+      :style {"background-color" "hsl(277,82%,94%)", "width" "40px", "height" "40px", "border-radius" "50%"}
+      :children {}
+     }
+     "T" {
+      :type :some, :layout nil
+      :props {"value" "@", "kind" ":string"}
+      :attrs {}
+      :presets #{}
+      :style {}
+      :children {
+       "D" {
+        :type :box, :layout nil
+        :props {}
+        :attrs {}
+        :presets #{}
+        :style {"background-color" "hsl(277,82%,94%)", "width" "40px", "height" "40px", "border-radius" "50%"}
+        :children {}
+       }
+       "T" {
+        :id "T", :type :image, :layout nil
+        :props {"src" "@", "mode" ":img"}
+        :attrs {"width" "40", "height" "40"}
+        :presets #{}
+        :style {}
+        :children {}
        }
       }
      }
@@ -148,59 +259,12 @@
     :style {"width" "100%", "border-bottom" "1px solid #eee", "line-height" "\"48px", "height" "\"48px", "border" "none"}
     :presets #{}
     :event {"input" ":query", "keydown" ":keydown"}
-    :attrs {"placeholder" "\"filter..."}
+    :attrs {"placeholder" "\"filter...", "class-name" "\"query"}
     :props {"value" "@:query", "param" "nil"}
    }
   }
-  "nWg2UPH7Y" {
-   :id "nWg2UPH7Y", :name "tab-highlight", :mock-pointer "base", :width 400, :height "80"
-   :mocks {
-    "base" {
-     :id "base", :name "base"
-     :data {:id "01", :title "demo tab", :url "http://tiye.me", :icon "http://cdn.tiye.me/logo/erigeron.png", :previous? false, :highlighted? false}
-    }
-    "qMSZ7ZObQ" {
-     :id "qMSZ7ZObQ", :name "highlighed"
-     :data {:id "01", :title "demo tab", :url "http://tiye.me", :icon "http://cdn.tiye.me/logo/erigeron.png", :previous? false, :highlighted? true}
-    }
-   }
-   :markup {
-    :id "yYlDKUnh1", :type :some, :layout nil
-    :props {"value" "@:highlighted?", "kind" ":boolean"}
-    :attrs {}
-    :presets #{}
-    :style {}
-    :children {
-     "D" {
-      :id "T", :type :template, :layout nil
-      :props {"name" "\"tab", "data" "@"}
-      :attrs {}
-      :presets #{}
-      :style {}
-      :children {}
-     }
-     "T" {
-      :id "tx97F3iRM", :type :box, :layout nil
-      :props {}
-      :attrs {}
-      :presets #{}
-      :style {"background-color" "hsl(277,82%,94%)"}
-      :children {
-       "T" {
-        :id "T", :type :template, :layout nil
-        :props {"name" "\"tab", "data" "@"}
-        :attrs {}
-        :presets #{}
-        :style {}
-        :children {}
-       }
-      }
-     }
-    }
-   }
-  }
   "reYXJPMRm" {
-   :id "reYXJPMRm", :name "tab", :mock-pointer "SbqtBSOnU", :width 400, :height "80"
+   :id "reYXJPMRm", :name "tab", :mock-pointer "SbqtBSOnU", :width 400, :height "81"
    :mocks {
     "RRVQWGBVB" {
      :id "RRVQWGBVB", :name "previous-task"
@@ -214,10 +278,10 @@
    :markup {
     :layout :row-middle, :type :box, :id "system"
     :children {
-     "T" {
-      :id "T", :type :image, :layout nil
-      :props {"src" "@:icon", "mode" ":img"}
-      :attrs {"width" "40", "height" "40"}
+     "D" {
+      :type :template, :layout nil
+      :props {"name" "\"icon", "data" "@:icon"}
+      :attrs {}
       :presets #{}
       :style {}
       :children {}
@@ -235,7 +299,7 @@
       :props {}
       :attrs {}
       :presets #{:flex}
-      :style {}
+      :style {"overflow" "hidden"}
       :children {
        "T" {
         :id "T", :type :box, :layout nil
@@ -267,14 +331,14 @@
         :props {}
         :attrs {}
         :presets #{}
-        :style {}
+        :style {"overflow" "hidden", "text-overflow" "ellipsis"}
         :children {
          "T" {
           :id "T", :type :text, :layout nil
           :props {"value" "@:url"}
           :attrs {}
           :presets #{:font-fancy}
-          :style {"color" "hsl(200,80%,70%)"}
+          :style {"color" "hsl(200,80%,70%)", "white-space" "nowrap", "text-overflow" "ellipsis", "overflow" "hidden"}
           :children {}
          }
         }
