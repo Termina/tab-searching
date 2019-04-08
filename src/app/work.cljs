@@ -6,7 +6,18 @@
             [clojure.string :as string]
             [fuzzy-filter.core :refer [parse-by-letter]]
             [app.chrome :as chrome]
-            [app.util :refer [index-of]]))
+            [app.util :refer [index-of]]
+            [clojure.core.async :refer [go chan <! >! timeout]]
+            [app.chrome :as chrome]))
+
+(defn close-and-refresh! [tab-id next-pointer window-id d!]
+  (go
+   (let [result (<! (chrome/chan-close-tab tab-id))
+         ret (<! (timeout 40))
+         tabs-result (<!
+                      (chrome/chan-query-tabs {:windowType :normal, :windowId window-id}))]
+     (d! :all-tabs (:data tabs-result))
+     (d! :pointer next-pointer))))
 
 (defn get-view-model [store]
   (let [query (or (:query store) ""), pointer (or (:pointer store) 0)]
@@ -54,6 +65,24 @@
             "ArrowUp" (when (pos? pointer) (d! :pointer (dec pointer)))
             "Enter" (when (= 13 (.-keyCode event)) (chrome/close!))
             "Escape" (do (chrome/select-tab! initial-id) (chrome/close!))
+            "k"
+              (when (.-metaKey event)
+                (cond
+                  (pos? pointer)
+                    (do
+                     (close-and-refresh!
+                      (get-in model [:tabs pointer :id])
+                      (dec pointer)
+                      (:window-id model)
+                      d!))
+                  (> (count (:tabs model) 1))
+                    (do
+                     (close-and-refresh!
+                      (get-in model [:tabs 0 :id])
+                      0
+                      (:window-id model)
+                      d!))
+                  :else (println "not closing a single tab")))
             (do (println (.-key event)))))
       :click
         (let [idx (index-of param (map :id (:tabs model)))]

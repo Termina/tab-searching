@@ -1,8 +1,18 @@
 
 (ns app.chrome (:require [clojure.core.async :refer [go >! chan]]))
 
+(defn chan-close-tab [tab-id]
+  (let [<tabs (chan)]
+    (-> js/chrome
+        .-tabs
+        (.remove
+         tab-id
+         (fn [] (println "Closed") (go (>! <tabs {:ok? true, :timeout? false, :data true})))))
+    <tabs))
+
 (defn chan-query-tabs [options]
   (let [<tabs (chan)]
+    (println "query tabs")
     (-> js/chrome
         .-tabs
         (.query
