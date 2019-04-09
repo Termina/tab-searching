@@ -10,4 +10,5 @@
     :initial-tab (assoc store :initial-tab-id op-data)
     :reset-pointer (assoc store :pointer 0)
     :pointer (assoc store :pointer op-data)
+    :window-id (assoc store :window-id op-data)
     (do (println "Unknown op:" op) store)))

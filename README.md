@@ -21,12 +21,12 @@ cp extension/* dist/
 
 ### Shortcuts
 
-`Command+Period` is suggested for `mac`, `Alt+Perriod` for Windows and Linux.
+`Command+Period` is suggested for `mac`, `Alt+Period` for Windows and Linux.
 
 * Enter: choose this tab
 * Up: go to the tab above
 * Down: go to the tab below
-* Shift+Delete: remove this tab
+* Command K: remove this tab
 
 ### Workflow
 

@@ -37,7 +37,8 @@
          idx (index-of initial-id (map :id all-tabs))]
      (dispatch! :initial-tab initial-id)
      (dispatch! :pointer idx)
-     (dispatch! :all-tabs all-tabs))))
+     (dispatch! :all-tabs all-tabs)
+     (dispatch! :window-id window-id))))
 
 (def mount-target (.querySelector js/document ".app"))
 
